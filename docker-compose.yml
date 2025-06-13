@@ -1,0 +1,27 @@
+services:
+  springboot-app:
+    container_name: game-hub
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    volumes:
+      - ./:/opt/app
+      - ~/.m2:/root/.m2
+    ports:
+      - "8080:8080"
+  
+  postgres:
+    image: postgres:16.9-bullseye
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: ${GAME_HUB_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${GAME_HUB_DATASOURCE_PASSWORD}
+      POSTGRES_DB: ${GAME_HUB_DATASOURCE_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data

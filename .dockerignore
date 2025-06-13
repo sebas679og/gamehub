@@ -1,0 +1,24 @@
+# Carpetas de build
+target/
+
+# Archivos de IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Control de versiones
+.git
+.gitignore
+
+# Archivos binarios o temporales
+*.log
+*.class
+*.jar
+*.war
+*.swp
