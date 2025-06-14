@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - postgres
+      - postgresql
     env_file:
       - .env
     volumes:
@@ -14,7 +14,7 @@ services:
     ports:
       - "8080:8080"
   
-  postgres:
+  postgresql:
     image: postgres:16.9-bullseye
     container_name: postgres-db
     environment:
