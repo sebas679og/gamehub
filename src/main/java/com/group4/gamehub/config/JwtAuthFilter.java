@@ -11,6 +11,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.group4.gamehub.exception.JwtAuthenticationException;
+
 import java.io.IOException;
 
 @Component
@@ -35,11 +37,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
-            return;
+            throw new JwtAuthenticationException("No se ha proporcionado un token de autenticación");
         }
 
         jwtToken = authHeader.substring(7);
-        String username = jwtService.extractUsername(jwtToken);
+        String username;
+
+        try {
+            username = jwtService.extractUsername(jwtToken);
+        } catch (Exception e) {
+            throw new JwtAuthenticationException("Token inválido");
+        }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
