@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +12,12 @@ import java.util.Date;
 @Service
 public class JwtService {
 
+    private final JwtProperties jwtProperties;
     private final Algorithm algorithm;
 
-    @Value("${jwt.expiration}")
-    private long expirationTime;
-
-    public JwtService(@Value("${jwt.secret}") String secretKey) {
-        this.algorithm = Algorithm.HMAC256(secretKey);
+    public JwtService(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+        this.algorithm = Algorithm.HMAC256(jwtProperties.getSecret());
     }
 
     // Genera un token con username y role
@@ -31,7 +29,7 @@ public class JwtService {
                         .map(Object::toString)
                         .orElse("PLAYER"))
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
+                .withExpiresAt(new Date(System.currentTimeMillis() + jwtProperties.getExpiration()))
                 .sign(algorithm);
     }
 
