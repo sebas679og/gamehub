@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.group4.gamehub.config.JwtService;
 import com.group4.gamehub.dto.AuthResponse;
 import com.group4.gamehub.dto.RegisterRequest;
+import com.group4.gamehub.exception.UserAlreadyExistsException;
 import com.group4.gamehub.model.Role;
 import com.group4.gamehub.model.User;
 import com.group4.gamehub.repository.UserRepository;
@@ -25,10 +26,10 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request){
         if(userRepository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("Email ya registrado");
+            throw new UserAlreadyExistsException("Email ya registrado");
         }
         if(userRepository.existsByUsername(request.getUsername())){
-            throw new RuntimeException("Username ya registrado");
+            throw new UserAlreadyExistsException("Username ya registrado");
         }
 
         User user = User.builder()
