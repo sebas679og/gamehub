@@ -1,10 +1,14 @@
 package com.group4.gamehub.service;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.group4.gamehub.config.JwtService;
 import com.group4.gamehub.dto.AuthResponse;
+import com.group4.gamehub.dto.LoginRequest;
 import com.group4.gamehub.dto.RegisterRequest;
 import com.group4.gamehub.exception.UserAlreadyExistsException;
 import com.group4.gamehub.model.Role;
@@ -17,11 +21,13 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService){
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
     }
 
     public AuthResponse register(RegisterRequest request){
@@ -51,4 +57,28 @@ public class AuthService {
 
         return new AuthResponse(token);
     }
+
+    public AuthResponse login(LoginRequest request){
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Credenciales inválidas");
+        }
+
+        var user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Usuario no registrado"));
+
+        String token = jwtService.generateToken(
+                org.springframework.security.core.userdetails.User.builder()
+                        .username(user.getUsername())
+                        .password(user.getPassword())
+                        .roles(user.getRole().name())
+                        .build()
+        );
+
+        return new AuthResponse(token);
+    }
+
 }
