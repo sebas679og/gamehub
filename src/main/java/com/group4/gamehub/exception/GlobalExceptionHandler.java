@@ -16,11 +16,6 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
-    @ExceptionHandler(JwtAuthenticationException.class)
-    public ResponseEntity<Map<String, Object>> handleJwt(JwtAuthenticationException ex) {
-        return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
-    }
-
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleRuntime(RuntimeException ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());

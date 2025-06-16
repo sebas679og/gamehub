@@ -10,14 +10,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.group4.gamehub.exception.JwtAuthEntryPoint;
+
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter, JwtAuthEntryPoint entryPoint) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
+            .exceptionHandling(eh -> eh.authenticationEntryPoint(entryPoint))
             .authorizeHttpRequests(auth -> {
                 auth
                     .requestMatchers("/api/auth/**").permitAll()
