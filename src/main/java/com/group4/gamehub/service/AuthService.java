@@ -32,10 +32,10 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request){
         if(userRepository.existsByEmail(request.getEmail())){
-            throw new UserAlreadyExistsException("Email ya registrado");
+            throw new UserAlreadyExistsException("E-mail already registered");
         }
         if(userRepository.existsByUsername(request.getUsername())){
-            throw new UserAlreadyExistsException("Username ya registrado");
+            throw new UserAlreadyExistsException("Username already registered");
         }
 
         User user = User.builder()
@@ -64,11 +64,11 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Credenciales inválidas");
+            throw new RuntimeException("Invalid credentials");
         }
 
         var user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Usuario no registrado"));
+                .orElseThrow(() -> new RuntimeException("Unregistered user"));
 
         String token = jwtService.generateToken(
                 org.springframework.security.core.userdetails.User.builder()
