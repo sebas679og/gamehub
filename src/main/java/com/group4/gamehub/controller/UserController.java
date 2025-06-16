@@ -1,8 +1,11 @@
 package com.group4.gamehub.controller;
 
+import com.group4.gamehub.dto.PublicUserResponse;
 import com.group4.gamehub.dto.UserResponse;
 import com.group4.gamehub.model.User;
 import com.group4.gamehub.repository.UserRepository;
+
+import java.util.UUID;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,7 +21,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/me")
+    @GetMapping("/me")
     @PreAuthorize("hasAnyRole('PLAYER', 'ADMIN')")
     public UserResponse getCurrentUser(Authentication authentication) {
         String email = authentication.getName();
@@ -28,6 +31,19 @@ public class UserController {
         return UserResponse.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .role(user.getRole())
+                .rank(user.getRank())
+                .points(user.getPoints())
+                .build();
+    }
+
+    @GetMapping("/{id}")
+    public PublicUserResponse getUserById(@PathVariable UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return PublicUserResponse.builder()
+                .username(user.getUsername())
                 .role(user.getRole())
                 .rank(user.getRank())
                 .points(user.getPoints())
