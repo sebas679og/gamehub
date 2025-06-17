@@ -1,16 +1,17 @@
 package com.group4.gamehub.repository;
 
-import com.group4.gamehub.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, UUID> {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    Optional<User> findByEmail(String email);
+import com.group4.gamehub.model.UserEntity;
 
-    Optional<User> findByUsername(String username);
+public interface UserRepository extends JpaRepository<UserEntity, UUID> {
+
+    Optional<UserEntity> findByEmail(String email);
+
+    Optional<UserEntity> findByUsername(String username);
 
     boolean existsByEmail(String email);
 
