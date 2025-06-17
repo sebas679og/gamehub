@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
 import com.group4.gamehub.exception.UserNotFoundException;
+import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
 
@@ -21,25 +22,22 @@ import com.group4.gamehub.repository.UserRepository;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('PLAYER', 'ADMIN')")
     public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
         String username = authentication.getName();
+
         UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        UserResponse response = UserResponse.builder()
-                .username(userEntity.getUsername())
-                .email(userEntity.getEmail())
-                .role(userEntity.getRole())
-                .rank(userEntity.getRank())
-                .points(userEntity.getPoints())
-                .build();
+        UserResponse response = userMapper.toUserResponse(userEntity);
 
         return ResponseEntity.ok(response);
     }
@@ -49,12 +47,7 @@ public class UserController {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        PublicUserResponse response = PublicUserResponse.builder()
-                .username(userEntity.getUsername())
-                .role(userEntity.getRole())
-                .rank(userEntity.getRank())
-                .points(userEntity.getPoints())
-                .build();
+        PublicUserResponse response = userMapper.toPublicUserResponse(userEntity);
 
         return ResponseEntity.ok(response);
     }
