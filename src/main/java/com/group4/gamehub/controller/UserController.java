@@ -2,6 +2,7 @@ package com.group4.gamehub.controller;
 
 import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,30 +28,34 @@ public class UserController {
 
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('PLAYER', 'ADMIN')")
-    public UserResponse getCurrentUser(Authentication authentication) {
-        String email = authentication.getName();
-        UserEntity userEntity = userRepository.findByUsername(email)
+    public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
+        String username = authentication.getName();
+        UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        return UserResponse.builder()
+        UserResponse response = UserResponse.builder()
                 .username(userEntity.getUsername())
                 .email(userEntity.getEmail())
                 .role(userEntity.getRole())
                 .rank(userEntity.getRank())
                 .points(userEntity.getPoints())
                 .build();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public PublicUserResponse getUserById(@PathVariable UUID id) {
+    public ResponseEntity<PublicUserResponse> getUserById(@PathVariable UUID id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        return PublicUserResponse.builder()
+        PublicUserResponse response = PublicUserResponse.builder()
                 .username(userEntity.getUsername())
                 .role(userEntity.getRole())
                 .rank(userEntity.getRank())
                 .points(userEntity.getPoints())
                 .build();
+
+        return ResponseEntity.ok(response);
     }
 }
