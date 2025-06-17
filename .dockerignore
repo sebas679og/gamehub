@@ -22,3 +22,8 @@ Thumbs.db
 *.jar
 *.war
 *.swp
+
+# carpetas
+docs/
+postgres_data/
+.git/
