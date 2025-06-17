@@ -1,4 +1,4 @@
-package com.group4.gamehub.dto;
+package com.group4.gamehub.dto.requests;
 
 import lombok.Getter;
 import lombok.Setter;

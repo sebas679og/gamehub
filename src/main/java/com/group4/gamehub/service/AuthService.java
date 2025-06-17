@@ -7,9 +7,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.group4.gamehub.config.JwtService;
-import com.group4.gamehub.dto.AuthResponse;
-import com.group4.gamehub.dto.LoginRequest;
-import com.group4.gamehub.dto.RegisterRequest;
+import com.group4.gamehub.dto.requests.LoginRequest;
+import com.group4.gamehub.dto.requests.RegisterRequest;
+import com.group4.gamehub.dto.responses.AuthResponse;
 import com.group4.gamehub.exception.UserAlreadyExistsException;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;

@@ -3,12 +3,12 @@ package com.group4.gamehub.controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.group4.gamehub.dto.AuthResponse;
-import com.group4.gamehub.dto.LoginRequest;
-import com.group4.gamehub.dto.RegisterRequest;
-import com.group4.gamehub.service.AuthService;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.group4.gamehub.dto.requests.LoginRequest;
+import com.group4.gamehub.dto.requests.RegisterRequest;
+import com.group4.gamehub.dto.responses.AuthResponse;
+import com.group4.gamehub.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")

@@ -1,7 +1,7 @@
 package com.group4.gamehub.controller;
 
-import com.group4.gamehub.dto.PublicUserResponse;
-import com.group4.gamehub.dto.UserResponse;
+import com.group4.gamehub.dto.responses.PublicUserResponse;
+import com.group4.gamehub.dto.responses.UserResponse;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
 
