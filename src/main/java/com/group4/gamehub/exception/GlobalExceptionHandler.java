@@ -23,8 +23,8 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<Map<String, Object>> buildErrorResponse(HttpStatus status, String description) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("status", status.value());
-        body.put("message", status.getReasonPhrase());
+        body.put("code", status.value());
+        body.put("name", status.getReasonPhrase());
         body.put("description", description);
         body.put("timestamp", LocalDateTime.now());
         return new ResponseEntity<>(body, status);
