@@ -2,7 +2,7 @@ package com.group4.gamehub.controller;
 
 import com.group4.gamehub.dto.PublicUserResponse;
 import com.group4.gamehub.dto.UserResponse;
-import com.group4.gamehub.model.User;
+import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
 
 import java.util.UUID;
@@ -25,28 +25,28 @@ public class UserController {
     @PreAuthorize("hasAnyRole('PLAYER', 'ADMIN')")
     public UserResponse getCurrentUser(Authentication authentication) {
         String email = authentication.getName();
-        User user = userRepository.findByUsername(email)
+        UserEntity userEntity = userRepository.findByUsername(email)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         return UserResponse.builder()
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .rank(user.getRank())
-                .points(user.getPoints())
+                .username(userEntity.getUsername())
+                .email(userEntity.getEmail())
+                .role(userEntity.getRole())
+                .rank(userEntity.getRank())
+                .points(userEntity.getPoints())
                 .build();
     }
 
     @GetMapping("/{id}")
     public PublicUserResponse getUserById(@PathVariable UUID id) {
-        User user = userRepository.findById(id)
+        UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         return PublicUserResponse.builder()
-                .username(user.getUsername())
-                .role(user.getRole())
-                .rank(user.getRank())
-                .points(user.getPoints())
+                .username(userEntity.getUsername())
+                .role(userEntity.getRole())
+                .rank(userEntity.getRank())
+                .points(userEntity.getPoints())
                 .build();
     }
 }

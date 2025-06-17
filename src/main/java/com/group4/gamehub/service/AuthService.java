@@ -11,9 +11,9 @@ import com.group4.gamehub.dto.AuthResponse;
 import com.group4.gamehub.dto.LoginRequest;
 import com.group4.gamehub.dto.RegisterRequest;
 import com.group4.gamehub.exception.UserAlreadyExistsException;
-import com.group4.gamehub.model.Role;
-import com.group4.gamehub.model.User;
+import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
+import com.group4.gamehub.util.Role;
 
 @Service
 public class AuthService {
@@ -38,20 +38,20 @@ public class AuthService {
             throw new UserAlreadyExistsException("Username already registered");
         }
 
-        User user = User.builder()
+        UserEntity userEntity = UserEntity.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.PLAYER)
                 .build();
 
-        userRepository.save(user);
+        userRepository.save(userEntity);
 
         String token = jwtService.generateToken(
             org.springframework.security.core.userdetails.User.builder()
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .roles(user.getRole().name())
+                    .username(userEntity.getUsername())
+                    .password(userEntity.getPassword())
+                    .roles(userEntity.getRole().name())
                     .build()
         );
 
