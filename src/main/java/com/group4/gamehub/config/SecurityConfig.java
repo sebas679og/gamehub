@@ -1,5 +1,6 @@
 package com.group4.gamehub.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.group4.gamehub.exception.JwtAuthEntryPoint;
 
 @Configuration
+@EnableConfigurationProperties(JwtProperties.class)
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
