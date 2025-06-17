@@ -25,8 +25,13 @@ public class SecurityConfig {
             .exceptionHandling(eh -> eh.authenticationEntryPoint(entryPoint))
             .authorizeHttpRequests(auth -> {
                 auth
-                    .requestMatchers("/api/auth/**").permitAll()
-                    .anyRequest().authenticated();
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+                        .anyRequest().authenticated();
             })
             .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
@@ -34,12 +39,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-    } 
+    }
 }
