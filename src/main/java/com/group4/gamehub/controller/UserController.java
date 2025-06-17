@@ -43,7 +43,8 @@ public class UserController {
         description = "Returns information about the currently authenticated user",
         responses = {
             @ApiResponse(responseCode = "200", description = "Current user info",
-                content=@Content(mediaType = "application/json")),
+                content=@Content(mediaType = "application/json",
+                schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad request, User not found",
                 content = @Content(
                     mediaType = "application/json",
@@ -74,7 +75,8 @@ public class UserController {
         description = "Returns public profile info of a user",
         responses = {
             @ApiResponse(responseCode = "200", description = "User info found",
-                content=@Content(mediaType = "application/json")),
+                content=@Content(mediaType = "application/json",
+                schema = @Schema(implementation = PublicUserResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad request, User not found",
                 content = @Content(
                     mediaType = "application/json",
