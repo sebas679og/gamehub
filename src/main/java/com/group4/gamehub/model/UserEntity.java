@@ -1,6 +1,9 @@
 package com.group4.gamehub.model;
 
+
 import java.util.UUID;
+
+import com.group4.gamehub.util.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,32 +18,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name="users")
+
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Builder
-public class User {
+@Table(name = "user_tbl")
+public class UserEntity {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable=false, unique=true)
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable=false, unique=true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
     private Role role;
 
+    @Column(name = "ranking")
     private String rank;
-    private int points;
+
+    private Long points;
+
+
 }
