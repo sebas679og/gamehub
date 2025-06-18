@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "message_tbl")
+@Table(name = "messages")
 public class MessageEntity {
     @Id
     @GeneratedValue
