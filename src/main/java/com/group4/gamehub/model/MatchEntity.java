@@ -1,15 +1,26 @@
 package com.group4.gamehub.model;
 
 
+import java.util.UUID;
+
+import org.hibernate.annotations.UuidGenerator;
+
 import com.group4.gamehub.util.Result;
-import jakarta.persistence.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.UuidGenerator;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -32,11 +43,8 @@ public class MatchEntity {
     @JoinColumn(name = "player1_id", nullable = false)
     private UserEntity player1;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "player2_id", nullable = false)
-
-    //TODO: review relations
-    @JoinTable(joinColumns = @JoinColumn(name = "id_match"),inverseJoinColumns = @JoinColumn(name = "user_id"))
     private UserEntity player2;
 
     @Enumerated(EnumType.STRING)
