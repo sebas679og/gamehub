@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Tournament_tbl")
+@Table(name = "tournaments")
 public class TournamentEntity {
     @Id
     @GeneratedValue

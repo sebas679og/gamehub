@@ -27,7 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "match_tbl")
+@Table(name = "matchs")
 public class MatchEntity {
 
     @Id

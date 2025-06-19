@@ -1,6 +1,6 @@
 package com.group4.gamehub.dto.responses;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,5 +11,9 @@ public class ErrorResponse {
     private final int code;
     private final String name;
     private final String description;
-    private final LocalDateTime timestamp;
+    private final String uri;
+    private final String method;
+
+    @Builder.Default
+    private final Instant timestamp = Instant.ofEpochMilli(Instant.now().toEpochMilli());
 }

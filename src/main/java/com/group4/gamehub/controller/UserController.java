@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group4.gamehub.dto.responses.ErrorResponse;
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
-import com.group4.gamehub.exception.UserNotFoundException;
-import com.group4.gamehub.mapper.UserMapper;
-import com.group4.gamehub.model.UserEntity;
-import com.group4.gamehub.repository.UserRepository;
+import com.group4.gamehub.service.UserService.UserServiceInterface;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,12 +26,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "User Management", description = "Endpoints for user data access")
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserServiceInterface userService;
 
-    public UserController(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
+    public UserController(UserServiceInterface userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/me")
@@ -59,14 +54,7 @@ public class UserController {
     )
     @PreAuthorize("hasAnyRole('PLAYER', 'ADMIN')")
     public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
-        String username = authentication.getName();
-
-        UserEntity userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-
-        UserResponse response = userMapper.toUserResponse(userEntity);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(userService.findByUsername(authentication.getName()));
     }
 
     @GetMapping("/{id}")
@@ -90,11 +78,6 @@ public class UserController {
         }
     )
     public ResponseEntity<PublicUserResponse> getUserById(@PathVariable UUID id) {
-        UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-
-        PublicUserResponse response = userMapper.toPublicUserResponse(userEntity);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(userService.findById(id));
     }
 }
