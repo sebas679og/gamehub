@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
                 .description(description)
                 .uri(request.getRequestURI())
                 .method(request.getMethod())
-                .timestamp(Instant.now())
+                .timestamp(Instant.ofEpochMilli(Instant.now().toEpochMilli()))
                 .build();
 
         return new ResponseEntity<>(body, status);

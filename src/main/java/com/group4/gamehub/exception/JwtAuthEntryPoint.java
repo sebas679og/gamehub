@@ -30,7 +30,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
                 .code(status.value())
                 .name(status.getReasonPhrase())
                 .description(authException.getMessage())
-                .timestamp(Instant.now())
+                .timestamp(Instant.ofEpochMilli(Instant.now().toEpochMilli()))
                 .method(request.getMethod())
                 .uri(request.getRequestURI())
                 .build();
