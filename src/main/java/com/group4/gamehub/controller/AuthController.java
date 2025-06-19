@@ -10,27 +10,26 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group4.gamehub.dto.requests.LoginRequest;
 import com.group4.gamehub.dto.requests.RegisterRequest;
 import com.group4.gamehub.dto.responses.AuthResponse;
-import com.group4.gamehub.service.AuthService;
+import com.group4.gamehub.service.AuthService.AuthServiceInterface;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthServiceInterface authService;
 
-    public AuthController(AuthService authService){
+    public AuthController(AuthServiceInterface authService){
         this.authService = authService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
-        AuthResponse response = authService.register(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        AuthResponse response = authService.login(request);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok(authService.login(request));
     }
+
 }
