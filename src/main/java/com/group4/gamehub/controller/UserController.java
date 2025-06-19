@@ -1,8 +1,7 @@
 package com.group4.gamehub.controller;
 
-import com.group4.gamehub.dto.responses.PublicUserResponse;
-import com.group4.gamehub.dto.responses.UserResponse;
-import com.group4.gamehub.service.UserService.UserService;
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -11,15 +10,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
+import com.group4.gamehub.dto.responses.PublicUserResponse;
+import com.group4.gamehub.dto.responses.UserResponse;
+import com.group4.gamehub.service.UserService.UserServiceInterface;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceInterface userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceInterface userService) {
         this.userService = userService;
     }
 

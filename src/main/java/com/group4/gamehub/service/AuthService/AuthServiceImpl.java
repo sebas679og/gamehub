@@ -1,8 +1,7 @@
-package com.group4.gamehub.service;
+package com.group4.gamehub.service.AuthService;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,21 +15,32 @@ import com.group4.gamehub.repository.UserRepository;
 import com.group4.gamehub.util.Role;
 
 @Service
-public class AuthService {
-    
+public class AuthServiceImpl implements AuthServiceInterface {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager){
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthResponse register(RegisterRequest request){
+    private String generateJwtToken(UserEntity userEntity) {
+        return jwtService.generateToken(
+                org.springframework.security.core.userdetails.User.builder()
+                        .username(userEntity.getUsername())
+                        .password(userEntity.getPassword())
+                        .roles(userEntity.getRole().name())
+                        .build()
+        );
+    }
+
+    @Override
+    public AuthResponse register(RegisterRequest request) {
         if(userRepository.existsByEmail(request.getEmail())){
             throw new UserAlreadyExistsException("E-mail already registered");
         }
@@ -47,38 +57,21 @@ public class AuthService {
 
         userRepository.save(userEntity);
 
-        String token = jwtService.generateToken(
-            org.springframework.security.core.userdetails.User.builder()
-                    .username(userEntity.getUsername())
-                    .password(userEntity.getPassword())
-                    .roles(userEntity.getRole().name())
-                    .build()
-        );
-
+        String token = generateJwtToken(userEntity);
         return new AuthResponse(token);
     }
 
-    public AuthResponse login(LoginRequest request){
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
-        } catch (AuthenticationException e) {
-            throw new RuntimeException("Invalid credentials");
-        }
+    @Override
+    public AuthResponse login(LoginRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
 
-        var user = userRepository.findByUsername(request.getUsername())
+        UserEntity user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Unregistered user"));
 
-        String token = jwtService.generateToken(
-                org.springframework.security.core.userdetails.User.builder()
-                        .username(user.getUsername())
-                        .password(user.getPassword())
-                        .roles(user.getRole().name())
-                        .build()
-        );
+        String token = generateJwtToken(user);
 
         return new AuthResponse(token);
     }
-
 }
