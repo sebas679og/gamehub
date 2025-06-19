@@ -1,7 +1,5 @@
 package com.group4.gamehub.exception;
 
-import java.time.Instant;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,7 +34,6 @@ public class GlobalExceptionHandler {
                 .description(description)
                 .uri(request.getRequestURI())
                 .method(request.getMethod())
-                .timestamp(Instant.ofEpochMilli(Instant.now().toEpochMilli()))
                 .build();
 
         return new ResponseEntity<>(body, status);

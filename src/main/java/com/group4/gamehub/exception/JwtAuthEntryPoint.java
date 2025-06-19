@@ -1,7 +1,6 @@
 package com.group4.gamehub.exception;
 
 import java.io.IOException;
-import java.time.Instant;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -30,7 +29,6 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
                 .code(status.value())
                 .name(status.getReasonPhrase())
                 .description(authException.getMessage())
-                .timestamp(Instant.ofEpochMilli(Instant.now().toEpochMilli()))
                 .method(request.getMethod())
                 .uri(request.getRequestURI())
                 .build();

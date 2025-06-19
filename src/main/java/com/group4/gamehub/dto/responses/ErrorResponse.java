@@ -13,5 +13,7 @@ public class ErrorResponse {
     private final String description;
     private final String uri;
     private final String method;
-    private final Instant timestamp;
+
+    @Builder.Default
+    private final Instant timestamp = Instant.ofEpochMilli(Instant.now().toEpochMilli());
 }
