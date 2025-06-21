@@ -87,7 +87,7 @@ docs/
 - `POST /api/auth/register` - Registro de usuario
 - `POST /api/auth/login` - Inicio de sesión
 
-### Usuarios
+#### Usuarios
 
 - `GET /api/users/me` - Informacion de perfil en sesion
 - `GET /api/users/{id}` - Informacion de perfil segun el ID
