@@ -36,20 +36,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        final String authHeader = request.getHeader("Authorization");
-        final String jwtToken;
-
+        String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwtToken = authHeader.substring(7);
+        String jwtToken = authHeader.substring(7);
         try {
             String username = jwtService.extractUsername(jwtToken);
-            
+
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
                 if (jwtService.isTokenValid(jwtToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(
@@ -58,15 +57,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     userDetails.getAuthorities()
                             );
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-    
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-    
             filterChain.doFilter(request, response);
         } catch (JWTVerificationException e) {
             request.setAttribute("Exception", e);
-            jwtAuthEntryPoint.commence(request, response, new org.springframework.security.authentication.BadCredentialsException(e.getMessage()));
+            jwtAuthEntryPoint.commence(request, response,
+                    new org.springframework.security.authentication.BadCredentialsException(e.getMessage()));
         }
     }
 }
