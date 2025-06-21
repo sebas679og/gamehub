@@ -8,11 +8,16 @@ services:
       - postgresql
     env_file:
       - .env
+    environment:
+      GAME_HUB_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/${GAME_HUB_DATASOURCE_DB}
     volumes:
       - ./:/opt/app
       - ~/.m2:/root/.m2
     ports:
       - "8080:8080"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: on-failure
   
   postgresql:
     image: postgres:16.9-bullseye
@@ -25,3 +30,4 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
+    restart: always
