@@ -1,0 +1,52 @@
+name: Run Spring Boot Unit Tests
+
+on: [ pull_request]
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16.9-bullseye
+        env:
+          POSTGRES_DB: ${{ secrets.GAME_HUB_DATASOURCE_DB }}
+          POSTGRES_USER: ${{ secrets.GAME_HUB_DATASOURCE_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.GAME_HUB_DATASOURCE_USERNAME }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      GAME_HUB_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ secrets.GAME_HUB_DATASOURCE_DB }}
+      GAME_HUB_DATASOURCE_USERNAME: ${{ secrets.GAME_HUB_DATASOURCE_USERNAME }}
+      GAME_HUB_DATASOURCE_PASSWORD: ${{ secrets.GAME_HUB_DATASOURCE_PASSWORD }}
+      GAME_HUB_DATASOURCE_DB: ${{ secrets.GAME_HUB_DATASOURCE_DB }}
+
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+
+      GAME_HUB_METRICS_USERNAME: ${{ secrets.GAME_HUB_METRICS_USERNAME }}
+      GAME_HUB_METRICS_PASSWORD: ${{ secrets.GAME_HUB_METRICS_PASSWORD }}
+
+      SWAGGER_UI_DOCUMENTATION_ENABLED: ${{ secrets.SWAGGER_UI_DOCUMENTATION_ENABLED }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permissions to Maven wrapper
+        run: chmod +x mvnw
+
+      - name: Run tests with Maven
+        run: ./mvnw clean test
