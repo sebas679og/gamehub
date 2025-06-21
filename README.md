@@ -61,6 +61,26 @@ docker-compose ps
 
 ## 🧪 Testing
 
+### Ejecución de Pruebas
+
+Antes de ejecutar las pruebas unitarias, asegúrate de que la base de datos esté en funcionamiento.
+
+Para ejecutar las pruebas:
+
+```bash
+# Limpia el proyecto y compila los artefactos
+./mvnw clean install
+
+# Ejecuta las pruebas unitarias
+./mvnw test
+```
+
+> **Nota:** Si usas Docker Compose, puedes levantar la base de datos con:
+
+```bash
+docker-compose up -d postgresql
+```
+
 ### Colecciones de Postman
 
 Las colecciones de Postman para testing están disponibles en el directorio `docs/postman/`:
