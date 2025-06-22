@@ -1,6 +1,13 @@
 name: Run Spring Boot Unit Tests
 
-on: [ pull_request]
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   test:
