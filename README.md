@@ -72,7 +72,7 @@ Para ejecutar las pruebas:
 ./mvnw clean install
 
 # Ejecuta las pruebas unitarias
-./mvnw test
+./mvnw clean test jacoco:report
 ```
 
 > **Nota:** Si usas Docker Compose, puedes levantar la base de datos con:
