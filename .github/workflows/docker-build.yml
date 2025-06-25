@@ -72,6 +72,10 @@ jobs:
         id: meta
         run: echo "BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
 
+      - name: Sanitize ref name for Docker tag
+        id: sanitize
+        run: echo "SAFE_TAG=${GITHUB_REF_NAME//\//-}" >> "$GITHUB_OUTPUT"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -79,10 +83,11 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/gamehub:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/gamehub:${{ steps.sanitize.outputs.SAFE_TAG }}
             ${{ github.ref_name == 'main' && format('ghcr.io/{0}/gamehub:latest', github.repository_owner) || '' }}
           build-args: |
             BUILD_DATE=${{ steps.meta.outputs.BUILD_DATE }}
             BUILD_VERSION=${{ github.sha }}
             IMAGE_DESCRIPTION=GameHub API image built via GitHub Actions
             IMAGE_NAME=gamehub
+
