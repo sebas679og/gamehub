@@ -35,10 +35,14 @@ jobs:
       - name: Build JAR
         run: ./mvnw clean package -DskipTests
 
+      - name: Sanitize branch name
+        id: sanitize
+        run: echo "SAFE_BRANCH_NAME=${GITHUB_REF_NAME//\//-}" >> "$GITHUB_OUTPUT"
+
       - name: Upload .jar artifact
         uses: actions/upload-artifact@v4
         with:
-          name: gamehub-${{ github.ref_name }}.jar
+          name: gamehub-${{ steps.sanitize.outputs.SAFE_BRANCH_NAME }}.jar
           path: target/*.jar
 
   docker:
