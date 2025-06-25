@@ -83,6 +83,7 @@ jobs:
             echo "TAGS=ghcr.io/${GITHUB_REPOSITORY_OWNER}/gamehub:dev" >> "$GITHUB_OUTPUT"
           else
             echo "TAGS=" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Build and push Docker image
         if: steps.tags.outputs.TAGS != ''
