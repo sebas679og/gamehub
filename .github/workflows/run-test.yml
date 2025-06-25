@@ -25,7 +25,7 @@ jobs:
           --health-retries 5
 
     env:
-      GAME_HUB_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ secrets.GAME_HUB_DATASOURCE_DB }}
+      GAME_HUB_DATASOURCE_URL: ${{ secrets.GAME_HUB_DATASOURCE_URL }}
       GAME_HUB_DATASOURCE_USERNAME: ${{ secrets.GAME_HUB_DATASOURCE_USERNAME }}
       GAME_HUB_DATASOURCE_PASSWORD: ${{ secrets.GAME_HUB_DATASOURCE_PASSWORD }}
       GAME_HUB_DATASOURCE_DB: ${{ secrets.GAME_HUB_DATASOURCE_DB }}
