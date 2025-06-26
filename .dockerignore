@@ -1,29 +1,29 @@
-# Carpetas de build
+# Maven build
 target/
+*.log
 
-# Archivos de IDEs
-.idea/
-*.iml
-*.ipr
-*.iws
-.vscode/
-
-# Archivos de sistema operativo
+# Archivos de sistema
 .DS_Store
 Thumbs.db
 
-# Control de versiones
-.git
-.gitignore
+# Configs de IDE
+.idea/
+*.iml
+.vscode/
 
-# Archivos binarios o temporales
-*.log
-*.class
-*.jar
-*.war
-*.swp
-
-# carpetas
-docs/
-postgres_data/
+# Docker y Git
+.dockerignore
 .git/
+.gitignore
+.gitattributes
+
+# Archivos de entorno
+.env
+
+# Datos persistentes
+postgres_data/
+
+# Documentación y otros
+docs/
+HELP.md
+README.md
