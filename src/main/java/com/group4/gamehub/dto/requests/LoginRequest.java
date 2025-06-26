@@ -1,5 +1,6 @@
 package com.group4.gamehub.dto.requests;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class LoginRequest {
-  private String username;
-  private String password;
+    @NotBlank(message = "Username must not be blank")
+    private String username;
+
+    @NotBlank(message = "Password must not be blank")
+    private String password;
 }
