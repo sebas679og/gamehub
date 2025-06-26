@@ -61,7 +61,25 @@ docker-compose ps
 
 ## 🧪 Testing
 
-### Ejecución de Pruebas
+### Ejecución de Pruebas y Chequeo
+
+#### Chequeo de Estilo y Configuracion
+
+para verificar si el test esta formateado bajo las reglas de estilo creadas ejecute:
+
+```bash
+# Chequeo de estilo
+./mvnw checkstyle:check
+./mvnw spotless:check
+
+# Aplicar estilo
+./mvnw spotless:apply
+
+# Checkeo de buenas practicas
+./mvnw pmd:check
+```
+
+#### Pruebas unitarias y de Integracion
 
 Antes de ejecutar las pruebas unitarias, asegúrate de que la base de datos esté en funcionamiento.
 
