@@ -41,3 +41,5 @@ RUN     mvn dependency:go-offline && \
 USER    group4
 
 ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
+
+CMD     ["mvn", "spring-boot:run"]

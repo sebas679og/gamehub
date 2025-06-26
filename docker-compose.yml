@@ -10,7 +10,6 @@ services:
       - .env
     environment:
       GAME_HUB_DATASOURCE_URL: ${GAME_HUB_DATASOURCE_URL_DOCKER}
-    command: mvn spring-boot:run
     volumes:
       - ./:/opt/app
       - ~/.m2:/home/group4/.m2
