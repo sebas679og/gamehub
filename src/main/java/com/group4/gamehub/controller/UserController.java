@@ -1,15 +1,7 @@
 package com.group4.gamehub.controller;
 
-import com.group4.gamehub.dto.responses.ErrorResponse;
-import com.group4.gamehub.dto.responses.PublicUserResponse;
-import com.group4.gamehub.dto.responses.UserResponse;
-import com.group4.gamehub.service.UserService.UserServiceInterface;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,10 +10,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group4.gamehub.dto.responses.ErrorResponse;
+import com.group4.gamehub.dto.responses.PublicUserResponse;
+import com.group4.gamehub.dto.responses.UserResponse;
+import com.group4.gamehub.service.UserService.UserServiceInterface;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/users")
 @Tag(name = "User Management", description = "Endpoints for user data access")
 public class UserController {
+  
+  public static final String APPLICATION_JSON = "application/json";
 
   private final UserServiceInterface userService;
 
@@ -39,21 +44,21 @@ public class UserController {
             description = "Current user info",
             content =
                 @Content(
-                    mediaType = "application/json",
+                    mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = UserResponse.class))),
         @ApiResponse(
             responseCode = "400",
             description = "Bad request, User not found",
             content =
                 @Content(
-                    mediaType = "application/json",
+                    mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(
             responseCode = "409",
             description = "Conflict",
             content =
                 @Content(
-                    mediaType = "application/json",
+                    mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
   @PreAuthorize("hasAnyRole('PLAYER', 'ADMIN')")
@@ -71,21 +76,21 @@ public class UserController {
             description = "User info found",
             content =
                 @Content(
-                    mediaType = "application/json",
+                    mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = PublicUserResponse.class))),
         @ApiResponse(
             responseCode = "400",
             description = "Bad request, User not found",
             content =
                 @Content(
-                    mediaType = "application/json",
+                    mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(
             responseCode = "409",
             description = "Conflict, Expired or corrupted token",
             content =
                 @Content(
-                    mediaType = "application/json",
+                    mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
   public ResponseEntity<PublicUserResponse> getUserById(@PathVariable UUID id) {
