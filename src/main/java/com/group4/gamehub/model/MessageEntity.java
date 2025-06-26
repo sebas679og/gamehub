@@ -1,14 +1,12 @@
 package com.group4.gamehub.model;
 
-
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,21 +15,19 @@ import java.util.UUID;
 @Entity
 @Table(name = "messages")
 public class MessageEntity {
-    @Id
-    @GeneratedValue
-    private UUID id;
+  @Id @GeneratedValue private UUID id;
 
-    private UUID senderId;
+  private UUID senderId;
 
-    private String content;
+  private String content;
 
-    private LocalDateTime timestamp;
+  private LocalDateTime timestamp;
 
-    @ManyToOne
-    @JoinColumn(name = "match_id")
-    private MatchEntity matchEntity;
+  @ManyToOne
+  @JoinColumn(name = "match_id")
+  private MatchEntity matchEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "tournament_id")
-    private TournamentEntity tournament;
+  @ManyToOne
+  @JoinColumn(name = "tournament_id")
+  private TournamentEntity tournament;
 }
