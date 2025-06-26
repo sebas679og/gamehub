@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntime(RuntimeException ex, HttpServletRequest request) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+        return badRequest(ex.getMessage(), request);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
@@ -36,7 +36,11 @@ public class GlobalExceptionHandler {
         String description = ex.getBindingResult().getFieldErrors().stream()
                 .map(err -> err.getField() + ": " + err.getDefaultMessage())
                 .collect(Collectors.joining("; "));
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, description, request);
+        return badRequest(description, request);
+    }
+
+    private ResponseEntity<ErrorResponse> badRequest(String message, HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, message, request);
     }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(HttpStatus status, String description, HttpServletRequest request) {
