@@ -69,7 +69,7 @@ para verificar si el test esta formateado bajo las reglas de estilo creadas ejec
 
 ```bash
 # Chequeo de estilo
-./mvnw spotless:check
+./mvnw checkstyle:check
 
 # Aplicar estilo
 ./mvnw spotless:apply

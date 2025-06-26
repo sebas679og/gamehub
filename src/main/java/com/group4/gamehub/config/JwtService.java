@@ -10,15 +10,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-  private final JwtProperties jwtProperties;
+  private final String secret;
+  private final long expiration;
   private final Algorithm algorithm;
 
   public JwtService(JwtProperties jwtProperties) {
-    this.jwtProperties = jwtProperties;
-    this.algorithm = Algorithm.HMAC256(jwtProperties.getSecret());
+    if (jwtProperties == null || jwtProperties.getSecret() == null) {
+      throw new IllegalArgumentException("JWT properties or secret cannot be null");
+    }
+
+    String secret = jwtProperties.getSecret();
+    long expiration = jwtProperties.getExpiration();
+
+    this.secret = secret;
+    this.expiration = expiration;
+    this.algorithm = Algorithm.HMAC256(this.secret);
   }
 
-  // Genera un token con username y role
   public String generateToken(UserDetails userDetails) {
     return JWT.create()
         .withSubject(userDetails.getUsername())
@@ -29,7 +37,7 @@ public class JwtService {
                 .map(Object::toString)
                 .orElse("PLAYER"))
         .withIssuedAt(new Date())
-        .withExpiresAt(new Date(System.currentTimeMillis() + jwtProperties.getExpiration()))
+        .withExpiresAt(new Date(System.currentTimeMillis() + expiration))
         .sign(algorithm);
   }
 
@@ -38,17 +46,14 @@ public class JwtService {
     return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
   }
 
-  // Extrae username
   public String extractUsername(String token) {
     return decodeToken(token).getSubject();
   }
 
-  // Valida expiración
   private boolean isTokenExpired(String token) {
     return decodeToken(token).getExpiresAt().before(new Date());
   }
 
-  // Decodifica token
   private DecodedJWT decodeToken(String token) {
     return JWT.require(algorithm).build().verify(token);
   }
