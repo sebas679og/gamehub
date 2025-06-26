@@ -32,10 +32,8 @@ jobs:
 
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
-
       GAME_HUB_METRICS_USERNAME: ${{ secrets.GAME_HUB_METRICS_USERNAME }}
       GAME_HUB_METRICS_PASSWORD: ${{ secrets.GAME_HUB_METRICS_PASSWORD }}
-
       SWAGGER_UI_DOCUMENTATION_ENABLED: ${{ secrets.SWAGGER_UI_DOCUMENTATION_ENABLED }}
 
     steps:
@@ -53,6 +51,9 @@ jobs:
 
       - name: Run Spotless check
         run: ./mvnw spotless:check
+
+      - name: Run Checkstyle
+        run: ./mvnw checkstyle:check
 
       - name: Run tests and generate coverage report
         run: ./mvnw clean test jacoco:report
