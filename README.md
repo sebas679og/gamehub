@@ -70,15 +70,13 @@ para verificar si el test esta formateado bajo las reglas de estilo creadas ejec
 ```bash
 # Chequeo de estilo
 ./mvnw checkstyle:check
+./mvnw spotless:check
 
 # Aplicar estilo
 ./mvnw spotless:apply
-```
 
-Para verificar si cumple con buenas paracticas de estructura y demas ejecutar lo siguiente:
-
-```bash
-./mvnw checkstyle:check
+# Checkeo de buenas practicas
+./mvnw pmd:check
 ```
 
 #### Pruebas unitarias y de Integracion
