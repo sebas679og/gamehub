@@ -12,9 +12,25 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+/**
+ * Entry point for handling unauthorized access attempts in JWT-based authentication.
+ *
+ * <p>This component is triggered whenever a request to a secured endpoint is made without proper
+ * authentication credentials. It builds a standardized {@link ErrorResponse} and returns it as a
+ * JSON payload with HTTP 401 status.
+ */
 @Component
 public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
+  /**
+   * Called when a user tries to access a secured resource without valid credentials. Responds with
+   * a structured JSON error message containing HTTP status and request metadata.
+   *
+   * @param request the incoming HTTP request
+   * @param response the HTTP response to write to
+   * @param authException the exception indicating the authentication failure
+   * @throws IOException if an I/O error occurs while writing the response
+   */
   @Override
   public void commence(
       HttpServletRequest request,
@@ -24,6 +40,13 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
     HttpStatus status = HttpStatus.UNAUTHORIZED;
 
+    response.setContentType("application/json;charset=UTF-8");
+    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
     ErrorResponse errorResponse =
         ErrorResponse.builder()
             .code(status.value())
@@ -32,13 +55,6 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
             .method(request.getMethod())
             .uri(request.getRequestURI())
             .build();
-
-    response.setContentType("application/json;charset=UTF-8");
-    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
-    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     mapper.writeValue(response.getOutputStream(), errorResponse);
   }

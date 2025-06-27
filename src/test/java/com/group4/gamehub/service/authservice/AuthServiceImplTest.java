@@ -1,4 +1,4 @@
-package com.group4.gamehub.service.AuthService;
+package com.group4.gamehub.service.authservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
