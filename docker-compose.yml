@@ -10,14 +10,9 @@ services:
       - .env
     environment:
       GAME_HUB_DATASOURCE_URL: ${GAME_HUB_DATASOURCE_URL_DOCKER}
-    volumes:
-      - ./:/opt/app
-      - ~/.m2:/home/group4/.m2
     ports:
       - "8080:8080"
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    restart: unless-stopped
+    restart: on-failure
 
   
   postgresql:
