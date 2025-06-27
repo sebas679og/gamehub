@@ -42,6 +42,4 @@ RUN     mvn dependency:go-offline && \
 
 ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
 
-EXPOSE 8080
-
 CMD     ["mvn", "spring-boot:run"]
