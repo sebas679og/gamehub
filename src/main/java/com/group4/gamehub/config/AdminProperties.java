@@ -6,11 +6,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "jwt")
+@ConfigurationProperties(prefix = "admin")
 @Getter
 @Setter
-public class JwtProperties {
-
-  private String secret = "defaultSecret";
-  private long expiration = 86400000L;
+public class AdminProperties {
+  private String username = "admin";
+  private String password = "admin1234";
+  private String email = "admin@gamehub.com";
 }
