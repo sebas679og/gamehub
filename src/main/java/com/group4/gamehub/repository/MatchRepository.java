@@ -13,4 +13,6 @@ public interface MatchRepository extends JpaRepository<MatchEntity, UUID> {
 
     @Query("SELECT MAX(m.round) FROM MatchEntity m WHERE m.tournament.id = :tournamentId")
     Optional<Integer> findMaxRoundByTournamentId(@Param("tournamentId") UUID tournamentId);
+
+    Optional<MatchEntity> findById(UUID matchId);
 }

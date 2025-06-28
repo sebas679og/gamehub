@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Builder
 public class MatchResponse {
-    private UUID tournament;
 
     @JsonProperty("tournament_name")
     private String tournamentName;

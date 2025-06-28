@@ -81,4 +81,11 @@ public class MatchServiceImpl implements MatchService {
 
         return matches.stream().map(matchMapper::toMatchResponse).toList();
     }
+
+    @Override
+    public MatchResponse getMatchById(UUID matchId) {
+        return matchMapper.toMatchResponse(
+                matchRepository.findById(matchId)
+                        .orElseThrow(() -> new NotFoundException("Match not found")));
+    }
 }

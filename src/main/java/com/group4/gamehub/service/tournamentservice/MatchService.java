@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface MatchService {
 
     List<MatchResponse> generateMatchesForTournament(UUID tournamentId);
+
+    MatchResponse getMatchById(UUID matchId);
 }
