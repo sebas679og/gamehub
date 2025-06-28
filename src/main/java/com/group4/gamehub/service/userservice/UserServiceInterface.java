@@ -2,6 +2,7 @@ package com.group4.gamehub.service.userservice;
 
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
+import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.model.UserEntity;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,7 +23,7 @@ public interface UserServiceInterface {
    *
    * @param username the username to search for
    * @return a {@link UserResponse} containing detailed user data
-   * @throws UserNotFoundException if no user is found with the given username
+   * @throws NotFoundException if no user is found with the given username
    */
   UserResponse findByUsername(String username);
 
@@ -31,7 +32,7 @@ public interface UserServiceInterface {
    *
    * @param id the UUID of the user to retrieve
    * @return a {@link PublicUserResponse} with limited user data
-   * @throws UserNotFoundException if no user is found with the given ID
+   * @throws NotFoundException if no user is found with the given ID
    */
   PublicUserResponse findById(UUID id);
 }

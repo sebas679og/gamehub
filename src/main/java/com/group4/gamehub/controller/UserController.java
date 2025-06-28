@@ -66,8 +66,15 @@ public class UserController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(
-            responseCode = "409",
-            description = "Conflict or token-related issue",
+            responseCode = "401",
+            description = "Unauthorized, token invalidated",
+            content =
+                @Content(
+                    mediaType = APPLICATION_JSON,
+                    schema = @Schema(implementation = ErrorResponse.class))),
+        @ApiResponse(
+            responseCode = "403",
+            description = "Forbidden – only administrators can update match results.",
             content =
                 @Content(
                     mediaType = APPLICATION_JSON,
@@ -103,8 +110,8 @@ public class UserController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(
-            responseCode = "409",
-            description = "Conflict or invalid token",
+            responseCode = "401",
+            description = "Unauthorized, token invalidated",
             content =
                 @Content(
                     mediaType = APPLICATION_JSON,

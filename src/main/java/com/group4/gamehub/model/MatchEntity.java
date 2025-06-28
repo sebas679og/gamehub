@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import org.hibernate.annotations.UuidGenerator;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "matchs")
 public class MatchEntity {
 
@@ -48,7 +50,7 @@ public class MatchEntity {
 
   /** The second player participating in the match. */
   @ManyToOne
-  @JoinColumn(name = "player2_id", nullable = false)
+  @JoinColumn(name = "player2_id", nullable = true)
   private UserEntity player2;
 
   /** The result of the match (e.g., WIN, LOSS, DRAW). */

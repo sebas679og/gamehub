@@ -47,7 +47,7 @@ public class TournamentEntity {
   /** Set of users participating in the tournament. This is a many-to-many relationship. */
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = UserEntity.class)
   @JoinTable(
-      joinColumns = @JoinColumn(name = "tournament_tbl"),
+      joinColumns = @JoinColumn(name = "tournament_id"),
       inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<UserEntity> userEntities;
 }

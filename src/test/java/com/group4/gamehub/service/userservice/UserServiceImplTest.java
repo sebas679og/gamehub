@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
-import com.group4.gamehub.exception.UserNotFoundException;
+import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
@@ -71,7 +71,7 @@ class UserServiceImplTest {
 
     when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-    assertThrows(UserNotFoundException.class, () -> userService.findByUsername(username));
+    assertThrows(NotFoundException.class, () -> userService.findByUsername(username));
     verify(userRepository).findByUsername(username);
     verify(userMapper, never()).toUserResponse(any());
   }
@@ -114,7 +114,7 @@ class UserServiceImplTest {
 
     when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-    assertThrows(UserNotFoundException.class, () -> userService.findById(id));
+    assertThrows(NotFoundException.class, () -> userService.findById(id));
     verify(userRepository).findById(id);
     verify(userMapper, never()).toPublicUserResponse(any());
   }

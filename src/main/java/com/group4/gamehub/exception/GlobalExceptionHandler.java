@@ -44,15 +44,15 @@ public class GlobalExceptionHandler {
   }
 
   /**
-   * Handles {@link UserNotFoundException} when a requested user cannot be found.
+   * Handles {@link NotFoundException} when a requested user cannot be found.
    *
    * @param ex the thrown exception
    * @param request the HTTP request that caused the exception
    * @return a NOT_FOUND response with an {@link ErrorResponse} body
    */
-  @ExceptionHandler(UserNotFoundException.class)
+  @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<ErrorResponse> handleUserNotFound(
-      UserNotFoundException ex, HttpServletRequest request) {
+      NotFoundException ex, HttpServletRequest request) {
     return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
   }
 
