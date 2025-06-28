@@ -10,5 +10,8 @@ public enum Result {
   PLAYER1_WIN,
 
   /** Player 2 won the match. */
-  PLAYER2_WIN
+  PLAYER2_WIN,
+
+  /** The match ended in a draw. */
+  DRAW
 }

@@ -1,27 +1,28 @@
 package com.group4.gamehub.service.userservice;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
 
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
-import com.group4.gamehub.exception.UserNotFoundException;
+import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
 import com.group4.gamehub.util.Role;
-import java.util.Optional;
-import java.util.UUID;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 class UserServiceImplTest {
 
@@ -71,7 +72,7 @@ class UserServiceImplTest {
 
     when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-    assertThrows(UserNotFoundException.class, () -> userService.findByUsername(username));
+    assertThrows(NotFoundException.class, () -> userService.findByUsername(username));
     verify(userRepository).findByUsername(username);
     verify(userMapper, never()).toUserResponse(any());
   }
@@ -114,7 +115,7 @@ class UserServiceImplTest {
 
     when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-    assertThrows(UserNotFoundException.class, () -> userService.findById(id));
+    assertThrows(NotFoundException.class, () -> userService.findById(id));
     verify(userRepository).findById(id);
     verify(userMapper, never()).toPublicUserResponse(any());
   }

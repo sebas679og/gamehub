@@ -1,6 +1,11 @@
 package com.group4.gamehub.model;
 
+import java.util.UUID;
+
+import org.hibernate.annotations.UuidGenerator;
+
 import com.group4.gamehub.util.Result;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,12 +16,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.UuidGenerator;
 
 /** Entity representing a match between two players within a tournament. */
 @Getter
@@ -24,6 +28,7 @@ import org.hibernate.annotations.UuidGenerator;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "matchs")
 public class MatchEntity {
 
@@ -48,7 +53,7 @@ public class MatchEntity {
 
   /** The second player participating in the match. */
   @ManyToOne
-  @JoinColumn(name = "player2_id", nullable = false)
+  @JoinColumn(name = "player2_id", nullable = true)
   private UserEntity player2;
 
   /** The result of the match (e.g., WIN, LOSS, DRAW). */

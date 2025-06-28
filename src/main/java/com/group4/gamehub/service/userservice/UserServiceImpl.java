@@ -1,14 +1,16 @@
 package com.group4.gamehub.service.userservice;
 
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
-import com.group4.gamehub.exception.UserNotFoundException;
+import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
-import java.util.Optional;
-import java.util.UUID;
-import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the {@link UserServiceInterface}. Provides user-related operations such as
@@ -47,14 +49,14 @@ public class UserServiceImpl implements UserServiceInterface {
    *
    * @param username the user's username
    * @return a {@link UserResponse} containing the user's information
-   * @throws UserNotFoundException if no user is found with the given username
+   * @throws NotFoundException if no user is found with the given username
    */
   @Override
   public UserResponse findByUsername(String username) {
     UserEntity userEntity =
         userRepository
             .findByUsername(username)
-            .orElseThrow(() -> new UserNotFoundException("User not found"));
+            .orElseThrow(() -> new NotFoundException("User not found"));
     return userMapper.toUserResponse(userEntity);
   }
 
@@ -63,12 +65,12 @@ public class UserServiceImpl implements UserServiceInterface {
    *
    * @param id the user's unique identifier
    * @return a {@link PublicUserResponse} containing non-sensitive user information
-   * @throws UserNotFoundException if no user is found with the given ID
+   * @throws NotFoundException if no user is found with the given ID
    */
   @Override
   public PublicUserResponse findById(UUID id) {
     UserEntity userEntity =
-        userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     return userMapper.toPublicUserResponse(userEntity);
   }
 }

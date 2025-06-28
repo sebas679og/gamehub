@@ -1,13 +1,16 @@
 package com.group4.gamehub.exception;
 
-import com.group4.gamehub.dto.responses.ErrorResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.group4.gamehub.dto.responses.ErrorResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Global exception handler for the REST API. Catches specific and general exceptions and converts
@@ -44,15 +47,15 @@ public class GlobalExceptionHandler {
   }
 
   /**
-   * Handles {@link UserNotFoundException} when a requested user cannot be found.
+   * Handles {@link NotFoundException} when a requested user cannot be found.
    *
    * @param ex the thrown exception
    * @param request the HTTP request that caused the exception
    * @return a NOT_FOUND response with an {@link ErrorResponse} body
    */
-  @ExceptionHandler(UserNotFoundException.class)
+  @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<ErrorResponse> handleUserNotFound(
-      UserNotFoundException ex, HttpServletRequest request) {
+      NotFoundException ex, HttpServletRequest request) {
     return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
   }
 
