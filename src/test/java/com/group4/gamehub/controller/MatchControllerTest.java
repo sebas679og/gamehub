@@ -2,7 +2,7 @@ package com.group4.gamehub.controller;
 
 import com.group4.gamehub.dto.requests.MatchRequest;
 import com.group4.gamehub.dto.responses.MatchResponse;
-import com.group4.gamehub.service.tournamentservice.MatchService;
+import com.group4.gamehub.service.matchservice.MatchService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;

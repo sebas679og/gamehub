@@ -1,4 +1,4 @@
-package com.group4.gamehub.service.tournamentservice;
+package com.group4.gamehub.service.matchservice;
 
 import com.group4.gamehub.dto.requests.MatchRequest;
 import com.group4.gamehub.dto.responses.MatchResponse;

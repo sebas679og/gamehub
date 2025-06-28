@@ -3,7 +3,7 @@ package com.group4.gamehub.controller;
 import com.group4.gamehub.dto.requests.MatchRequest;
 import com.group4.gamehub.dto.responses.ErrorResponse;
 import com.group4.gamehub.dto.responses.MatchResponse;
-import com.group4.gamehub.service.tournamentservice.MatchService;
+import com.group4.gamehub.service.matchservice.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
