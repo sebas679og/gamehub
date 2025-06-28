@@ -80,6 +80,19 @@ class GamehubApplicationTests {
   }
 
   @Test
+  void loginWithAdminUser_ReturnsOk() throws Exception {
+    LoginRequest adminLogin = LoginRequest.builder().username("admin").password("admin123").build();
+
+    mockMvc
+        .perform(
+            post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(adminLogin)))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.token").exists());
+  }
+
+  @Test
   void registerExistingEmail_ReturnsConflict() throws Exception {
     RegisterRequest duplicateEmail =
         RegisterRequest.builder()

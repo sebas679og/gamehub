@@ -1,4 +1,4 @@
-package com.group4.gamehub.service.UserService;
+package com.group4.gamehub.service.userservice;
 
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
@@ -10,22 +10,45 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the {@link UserServiceInterface}. Provides user-related operations such as
+ * retrieval by email, username, or ID.
+ */
 @Service
 public class UserServiceImpl implements UserServiceInterface {
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
 
+  /**
+   * Constructs the user service with required dependencies.
+   *
+   * @param userRepository the repository for accessing user data
+   * @param userMapper the mapper for converting {@link UserEntity} to DTOs
+   */
   public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
     this.userRepository = userRepository;
     this.userMapper = userMapper;
   }
 
+  /**
+   * Retrieves a user by their email address.
+   *
+   * @param email the user's email
+   * @return an {@link Optional} containing the user if found, or empty if not
+   */
   @Override
   public Optional<UserEntity> findByEmail(String email) {
     return userRepository.findByEmail(email);
   }
 
+  /**
+   * Retrieves full user details by username.
+   *
+   * @param username the user's username
+   * @return a {@link UserResponse} containing the user's information
+   * @throws UserNotFoundException if no user is found with the given username
+   */
   @Override
   public UserResponse findByUsername(String username) {
     UserEntity userEntity =
@@ -35,6 +58,13 @@ public class UserServiceImpl implements UserServiceInterface {
     return userMapper.toUserResponse(userEntity);
   }
 
+  /**
+   * Retrieves public user details by user ID.
+   *
+   * @param id the user's unique identifier
+   * @return a {@link PublicUserResponse} containing non-sensitive user information
+   * @throws UserNotFoundException if no user is found with the given ID
+   */
   @Override
   public PublicUserResponse findById(UUID id) {
     UserEntity userEntity =

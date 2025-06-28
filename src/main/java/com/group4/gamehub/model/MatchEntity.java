@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+/** Entity representing a match between two players within a tournament. */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,8 +27,13 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "matchs")
 public class MatchEntity {
 
+  /** Unique identifier for the match. */
   @Id @GeneratedValue @UuidGenerator private UUID id;
 
+  /**
+   * The tournament to which this match belongs. This relationship is mandatory and uses eager
+   * loading.
+   */
   @ManyToOne(
       targetEntity = TournamentEntity.class,
       cascade = CascadeType.ALL,
@@ -35,16 +41,20 @@ public class MatchEntity {
   @JoinColumn(name = "tournament_id", nullable = false)
   private TournamentEntity tournament;
 
+  /** The first player participating in the match. */
   @ManyToOne
   @JoinColumn(name = "player1_id", nullable = false)
   private UserEntity player1;
 
+  /** The second player participating in the match. */
   @ManyToOne
   @JoinColumn(name = "player2_id", nullable = false)
   private UserEntity player2;
 
+  /** The result of the match (e.g., WIN, LOSS, DRAW). */
   @Enumerated(EnumType.STRING)
   private Result result;
 
+  /** The round number in which the match takes place within the tournament. */
   private int round;
 }

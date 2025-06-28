@@ -68,12 +68,12 @@ docker-compose ps
 para verificar si el test esta formateado bajo las reglas de estilo creadas ejecute:
 
 ```bash
+# Aplicar estilo
+./mvnw spotless:apply
+
 # Chequeo de estilo
 ./mvnw checkstyle:check
 ./mvnw spotless:check
-
-# Aplicar estilo
-./mvnw spotless:apply
 
 # Checkeo de buenas practicas
 ./mvnw pmd:check
@@ -87,7 +87,7 @@ Para ejecutar las pruebas:
 
 ```bash
 # Limpia el proyecto y compila los artefactos
-./mvnw clean install
+./mvnw clean compile
 
 # Ejecuta las pruebas unitarias
 ./mvnw clean test jacoco:report

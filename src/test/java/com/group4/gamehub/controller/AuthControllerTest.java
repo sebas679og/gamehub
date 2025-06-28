@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import com.group4.gamehub.dto.requests.LoginRequest;
 import com.group4.gamehub.dto.requests.RegisterRequest;
 import com.group4.gamehub.dto.responses.AuthResponse;
-import com.group4.gamehub.service.AuthService.AuthServiceInterface;
+import com.group4.gamehub.service.authservice.AuthServiceInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
