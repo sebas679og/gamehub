@@ -1,5 +1,6 @@
 package com.group4.gamehub.controller;
 
+import com.group4.gamehub.dto.requests.MatchRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.group4.gamehub.service.tournamentservice.MatchService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +37,11 @@ public class MathController {
     @GetMapping("/{matchId}")
     public ResponseEntity<MatchResponse> getMatchById(@PathVariable UUID matchId) {
         return ResponseEntity.ok(matchService.getMatchById(matchId));
+    }
+
+    @PutMapping("/{matchId}/result")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<MatchResponse> updateMatchResult(@PathVariable UUID matchId, @RequestBody MatchRequest matchRequest) {
+        return ResponseEntity.ok(matchService.updateMatchResult(matchId, matchRequest));
     }
 }

@@ -1,5 +1,6 @@
 package com.group4.gamehub.service.tournamentservice;
 
+import com.group4.gamehub.dto.requests.MatchRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -87,5 +88,14 @@ public class MatchServiceImpl implements MatchService {
         return matchMapper.toMatchResponse(
                 matchRepository.findById(matchId)
                         .orElseThrow(() -> new NotFoundException("Match not found")));
+    }
+
+    @Override
+    public MatchResponse updateMatchResult(UUID matchId, MatchRequest matchRequest) {
+        MatchEntity match = matchRepository.findById(matchId)
+                .orElseThrow(() -> new NotFoundException("Match not found"));
+        match.setResult(matchRequest.getResult());
+        MatchEntity updated = matchRepository.save(match);
+        return matchMapper.toMatchResponse(updated);
     }
 }
