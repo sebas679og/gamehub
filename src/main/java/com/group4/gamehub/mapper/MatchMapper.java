@@ -6,9 +6,27 @@ import org.mapstruct.Mapping;
 
 import com.group4.gamehub.model.MatchEntity;
 
+/**
+ * Mapper interface for converting {@link MatchEntity} objects
+ * into {@link MatchResponse} DTOs.
+ * <p>
+ * This interface uses MapStruct to automatically generate the implementation
+ * at build time, facilitating clean and decoupled data transformation logic.
+ */
 @Mapper(componentModel = "spring")
 public interface MatchMapper {
 
+    /**
+     * Maps a {@link MatchEntity} to a {@link MatchResponse}, extracting:
+     * <ul>
+     *   <li>tournament name from the tournament entity</li>
+     *   <li>player1 and player2 usernames from their respective user entities</li>
+     *   <li>result from the match entity</li>
+     * </ul>
+     *
+     * @param entity the MatchEntity to map
+     * @return a MatchResponse DTO with mapped fields
+     */
     @Mapping(source = "tournament.name", target = "tournamentName")
     @Mapping(source = "player1.username", target = "player1")
     @Mapping(source = "player2.username", target = "player2")
