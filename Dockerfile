@@ -31,13 +31,15 @@ COPY    --from=maven:3.9.9-eclipse-temurin-17 /usr/share/maven/ref/settings-dock
 
 RUN     ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn
 
+USER    group4
+
 WORKDIR /opt/app
 
-COPY    --chown=group4 . .
+COPY    --chown=group4:group4 . .
 
 RUN     mvn dependency:go-offline && \
         mvn clean package -DskipTests
 
-USER    group4
-
 ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
+
+CMD     ["mvn", "spring-boot:run"]
