@@ -1,16 +1,14 @@
 package com.group4.gamehub.service.userservice;
 
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.stereotype.Service;
-
 import com.group4.gamehub.dto.responses.PublicUserResponse;
 import com.group4.gamehub.dto.responses.UserResponse;
 import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
+import java.util.Optional;
+import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 /**
  * Implementation of the {@link UserServiceInterface}. Provides user-related operations such as
