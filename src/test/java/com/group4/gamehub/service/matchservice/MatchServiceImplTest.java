@@ -1,5 +1,12 @@
 package com.group4.gamehub.service.matchservice;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.group4.gamehub.dto.requests.MatchRequest;
 import com.group4.gamehub.dto.responses.MatchResponse;
 import com.group4.gamehub.exception.NotFoundException;
@@ -21,129 +28,118 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 class MatchServiceImplTest {
 
-    @Mock
-    private MatchRepository matchRepository;
-    @Mock
-    private TournamentRepository tournamentRepository;
-    @Mock
-    private MatchMapper matchMapper;
+  @Mock private MatchRepository matchRepository;
+  @Mock private TournamentRepository tournamentRepository;
+  @Mock private MatchMapper matchMapper;
 
-    @InjectMocks
-    private MatchServiceImpl matchService;
+  @InjectMocks private MatchServiceImpl matchService;
 
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
-    @Test
-    void generateMatchesForTournament_ReturnsMatchResponses() {
-        UUID tournamentId = UUID.randomUUID();
-        TournamentEntity tournament = mock(TournamentEntity.class);
-        UserEntity player1 = mock(UserEntity.class);
-        UserEntity player2 = mock(UserEntity.class);
-        List<UserEntity> players = Arrays.asList(player1, player2);
+  @BeforeEach
+  void setUp() {
+    MockitoAnnotations.openMocks(this);
+  }
 
-        when(tournamentRepository.findById(tournamentId)).thenReturn(Optional.of(tournament));
-        when(tournament.getUserEntities()).thenReturn(new HashSet<>(players));
-        when(matchRepository.findMaxRoundByTournamentId(tournamentId)).thenReturn(Optional.of(0));
+  @Test
+  void generateMatchesForTournament_ReturnsMatchResponses() {
+    UUID tournamentId = UUID.randomUUID();
+    TournamentEntity tournament = mock(TournamentEntity.class);
+    UserEntity player1 = mock(UserEntity.class);
+    UserEntity player2 = mock(UserEntity.class);
+    List<UserEntity> players = Arrays.asList(player1, player2);
 
-        MatchEntity matchEntity = mock(MatchEntity.class);
-        List<MatchEntity> matchEntities = List.of(matchEntity);
-        when(matchRepository.saveAll(anyList())).thenReturn(matchEntities);
+    when(tournamentRepository.findById(tournamentId)).thenReturn(Optional.of(tournament));
+    when(tournament.getUserEntities()).thenReturn(new HashSet<>(players));
+    when(matchRepository.findMaxRoundByTournamentId(tournamentId)).thenReturn(Optional.of(0));
 
-        MatchResponse matchResponse = mock(MatchResponse.class);
-        when(matchMapper.toMatchResponse(matchEntity)).thenReturn(matchResponse);
+    MatchEntity matchEntity = mock(MatchEntity.class);
+    List<MatchEntity> matchEntities = List.of(matchEntity);
+    when(matchRepository.saveAll(anyList())).thenReturn(matchEntities);
 
-        List<MatchResponse> result = matchService.generateMatchesForTournament(tournamentId);
+    MatchResponse matchResponse = mock(MatchResponse.class);
+    when(matchMapper.toMatchResponse(matchEntity)).thenReturn(matchResponse);
 
-        assertEquals(1, result.size());
-        assertEquals(matchResponse, result.get(0));
-        verify(matchRepository).saveAll(anyList());
-    }
+    List<MatchResponse> result = matchService.generateMatchesForTournament(tournamentId);
 
-    @Test
-    void generateMatchesForTournament_ThrowsIfNotEnoughPlayers() {
-        UUID tournamentId = UUID.randomUUID();
-        TournamentEntity tournament = mock(TournamentEntity.class);
-        when(tournamentRepository.findById(tournamentId)).thenReturn(Optional.of(tournament));
-        when(tournament.getUserEntities()).thenReturn(new HashSet<>());
+    assertEquals(1, result.size());
+    assertEquals(matchResponse, result.get(0));
+    verify(matchRepository).saveAll(anyList());
+  }
 
-        RuntimeException ex = assertThrows(RuntimeException.class, () ->
-                matchService.generateMatchesForTournament(tournamentId)
-        );
-        assertEquals("Not enough players", ex.getMessage());
-    }
+  @Test
+  void generateMatchesForTournament_ThrowsIfNotEnoughPlayers() {
+    UUID tournamentId = UUID.randomUUID();
+    TournamentEntity tournament = mock(TournamentEntity.class);
+    when(tournamentRepository.findById(tournamentId)).thenReturn(Optional.of(tournament));
+    when(tournament.getUserEntities()).thenReturn(new HashSet<>());
 
-    @Test
-    void getMatchById_ReturnsMatchResponse() {
-        UUID matchId = UUID.randomUUID();
-        MatchEntity matchEntity = mock(MatchEntity.class);
-        MatchResponse matchResponse = mock(MatchResponse.class);
+    RuntimeException ex =
+        assertThrows(
+            RuntimeException.class, () -> matchService.generateMatchesForTournament(tournamentId));
+    assertEquals("Not enough players", ex.getMessage());
+  }
 
-        when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
-        when(matchMapper.toMatchResponse(matchEntity)).thenReturn(matchResponse);
+  @Test
+  void getMatchById_ReturnsMatchResponse() {
+    UUID matchId = UUID.randomUUID();
+    MatchEntity matchEntity = mock(MatchEntity.class);
+    MatchResponse matchResponse = mock(MatchResponse.class);
 
-        MatchResponse result = matchService.getMatchById(matchId);
+    when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
+    when(matchMapper.toMatchResponse(matchEntity)).thenReturn(matchResponse);
 
-        assertEquals(matchResponse, result);
-    }
+    MatchResponse result = matchService.getMatchById(matchId);
 
-    @Test
-    void getMatchById_ThrowsIfNotFound() {
-        UUID matchId = UUID.randomUUID();
-        when(matchRepository.findById(matchId)).thenReturn(Optional.empty());
+    assertEquals(matchResponse, result);
+  }
 
-        assertThrows(NotFoundException.class, () -> matchService.getMatchById(matchId));
-    }
+  @Test
+  void getMatchById_ThrowsIfNotFound() {
+    UUID matchId = UUID.randomUUID();
+    when(matchRepository.findById(matchId)).thenReturn(Optional.empty());
 
-    @Test
-    void updateMatchResult_UpdatesAndReturnsMatchResponse() {
-        UUID matchId = UUID.randomUUID();
-        MatchRequest request = mock(MatchRequest.class);
-        MatchEntity matchEntity = mock(MatchEntity.class);
-        MatchEntity updatedEntity = mock(MatchEntity.class);
-        MatchResponse matchResponse = mock(MatchResponse.class);
+    assertThrows(NotFoundException.class, () -> matchService.getMatchById(matchId));
+  }
 
-        when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
-        when(matchEntity.getResult()).thenReturn(Result.PENDING);
-        when(matchRepository.save(matchEntity)).thenReturn(updatedEntity);
-        when(matchMapper.toMatchResponse(updatedEntity)).thenReturn(matchResponse);
+  @Test
+  void updateMatchResult_UpdatesAndReturnsMatchResponse() {
+    UUID matchId = UUID.randomUUID();
+    MatchRequest request = mock(MatchRequest.class);
+    MatchEntity matchEntity = mock(MatchEntity.class);
+    MatchEntity updatedEntity = mock(MatchEntity.class);
+    MatchResponse matchResponse = mock(MatchResponse.class);
 
-        MatchResponse result = matchService.updateMatchResult(matchId, request);
+    when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
+    when(matchEntity.getResult()).thenReturn(Result.PENDING);
+    when(matchRepository.save(matchEntity)).thenReturn(updatedEntity);
+    when(matchMapper.toMatchResponse(updatedEntity)).thenReturn(matchResponse);
 
-        verify(matchEntity).setResult(request.getResult());
-        assertEquals(matchResponse, result);
-    }
+    MatchResponse result = matchService.updateMatchResult(matchId, request);
 
-    @Test
-    void updateMatchResult_ThrowsIfResultAlreadySet() {
-        UUID matchId = UUID.randomUUID();
-        MatchRequest request = mock(MatchRequest.class);
-        MatchEntity matchEntity = mock(MatchEntity.class);
+    verify(matchEntity).setResult(request.getResult());
+    assertEquals(matchResponse, result);
+  }
 
-        when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
-        when(matchEntity.getResult()).thenReturn(Result.PLAYER1_WIN);
+  @Test
+  void updateMatchResult_ThrowsIfResultAlreadySet() {
+    UUID matchId = UUID.randomUUID();
+    MatchRequest request = mock(MatchRequest.class);
+    MatchEntity matchEntity = mock(MatchEntity.class);
 
-        assertThrows(RuntimeException.class, () -> matchService.updateMatchResult(matchId, request));
-    }
+    when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
+    when(matchEntity.getResult()).thenReturn(Result.PLAYER1_WIN);
 
-    @Test
-    void updateMatchResult_ThrowsIfNotFound() {
-        UUID matchId = UUID.randomUUID();
-        MatchRequest request = mock(MatchRequest.class);
+    assertThrows(RuntimeException.class, () -> matchService.updateMatchResult(matchId, request));
+  }
 
-        when(matchRepository.findById(matchId)).thenReturn(Optional.empty());
+  @Test
+  void updateMatchResult_ThrowsIfNotFound() {
+    UUID matchId = UUID.randomUUID();
+    MatchRequest request = mock(MatchRequest.class);
 
-        assertThrows(NotFoundException.class, () -> matchService.updateMatchResult(matchId, request));
-    }
+    when(matchRepository.findById(matchId)).thenReturn(Optional.empty());
+
+    assertThrows(NotFoundException.class, () -> matchService.updateMatchResult(matchId, request));
+  }
 }
