@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/tournaments")
-public class TournamentsController {
+public class TournamentController {
 
     public static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
 
     private final TournamentService tournamentService;
 
-    public TournamentsController(TournamentService tournamentService) {
+    public TournamentController(TournamentService tournamentService) {
         this.tournamentService = tournamentService;
     }
 
