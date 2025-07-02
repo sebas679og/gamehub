@@ -1,5 +1,6 @@
 package com.group4.gamehub.model;
 
+import com.group4.gamehub.util.SlugUtil;
 import com.group4.gamehub.util.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.util.Set;
 import java.util.UUID;
@@ -36,9 +39,13 @@ public class TournamentEntity {
   @Column(nullable = false)
   private String name;
 
+  /** Unique identifier name for url search */
+  @Column(nullable = false, unique = true)
+  private String slug;
+
   /** Maximum number of players allowed in the tournament. */
   @Column(nullable = false)
-  private Integer maxPlayers;
+  private Integer maxPlayers = 10;
 
   /** Current status of the tournament (e.g., PENDING, ACTIVE, FINISHED). */
   @Enumerated(EnumType.STRING)
