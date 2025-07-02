@@ -1,8 +1,8 @@
 package com.group4.gamehub.controller;
 
 import com.group4.gamehub.dto.responses.ErrorResponse;
-import com.group4.gamehub.dto.responses.PublicUserResponse;
-import com.group4.gamehub.dto.responses.UserResponse;
+import com.group4.gamehub.dto.responses.user.PublicUser;
+import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.service.userservice.UserServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -43,7 +43,7 @@ public class UserController {
    *
    * @param authentication the current authentication context (injected automatically by Spring
    *     Security)
-   * @return a {@link ResponseEntity} with {@link UserResponse} for the current user
+   * @return a {@link ResponseEntity} with {@link User} for the current user
    */
   @GetMapping("/me")
   @PreAuthorize("hasAnyRole('PLAYER', 'ADMIN')")
@@ -57,7 +57,7 @@ public class UserController {
             content =
                 @Content(
                     mediaType = APPLICATION_JSON,
-                    schema = @Schema(implementation = UserResponse.class))),
+                    schema = @Schema(implementation = User.class))),
         @ApiResponse(
             responseCode = "400",
             description = "Bad request: user not found",
@@ -80,7 +80,7 @@ public class UserController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<UserResponse> getCurrentUser(Authentication authentication) {
+  public ResponseEntity<User> getCurrentUser(Authentication authentication) {
     return ResponseEntity.ok(userService.findByUsername(authentication.getName()));
   }
 
@@ -101,7 +101,7 @@ public class UserController {
             content =
                 @Content(
                     mediaType = APPLICATION_JSON,
-                    schema = @Schema(implementation = PublicUserResponse.class))),
+                    schema = @Schema(implementation = PublicUser.class))),
         @ApiResponse(
             responseCode = "400",
             description = "Bad request: user not found",
@@ -117,7 +117,7 @@ public class UserController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<PublicUserResponse> getUserById(@PathVariable UUID id) {
+  public ResponseEntity<PublicUser> getUserById(@PathVariable UUID id) {
     return ResponseEntity.ok(userService.findById(id));
   }
 }

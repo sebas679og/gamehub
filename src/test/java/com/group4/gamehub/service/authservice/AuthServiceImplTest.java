@@ -8,9 +8,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.group4.gamehub.config.JwtService;
-import com.group4.gamehub.dto.requests.LoginRequest;
-import com.group4.gamehub.dto.requests.RegisterRequest;
-import com.group4.gamehub.dto.responses.AuthResponse;
+import com.group4.gamehub.dto.requests.auth.Login;
+import com.group4.gamehub.dto.requests.auth.Register;
+import com.group4.gamehub.dto.responses.auth.AuthResponse;
 import com.group4.gamehub.exception.UserAlreadyExistsException;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
@@ -43,8 +43,8 @@ class AuthServiceImplTest {
 
   @Test
   void register_Success_ReturnsAuthResponse() {
-    RegisterRequest request =
-        RegisterRequest.builder()
+    Register request =
+        Register.builder()
             .username("testuser")
             .email("test@email.com")
             .password("password")
@@ -65,8 +65,8 @@ class AuthServiceImplTest {
 
   @Test
   void register_ExistingEmail_ThrowsException() {
-    RegisterRequest request =
-        RegisterRequest.builder()
+    Register request =
+        Register.builder()
             .username("testuser")
             .email("test@email.com")
             .password("password")
@@ -80,8 +80,8 @@ class AuthServiceImplTest {
 
   @Test
   void register_ExistingUsername_ThrowsException() {
-    RegisterRequest request =
-        RegisterRequest.builder()
+    Register request =
+        Register.builder()
             .username("testuser")
             .email("test@email.com")
             .password("password")
@@ -96,7 +96,7 @@ class AuthServiceImplTest {
 
   @Test
   void login_Success_ReturnsAuthResponse() {
-    LoginRequest request = LoginRequest.builder().username("testuser").password("password").build();
+    Login request = Login.builder().username("testuser").password("password").build();
 
     UserEntity user =
         UserEntity.builder()
@@ -121,7 +121,7 @@ class AuthServiceImplTest {
 
   @Test
   void login_UnregisteredUser_ThrowsException() {
-    LoginRequest request = LoginRequest.builder().username("unknown").password("password").build();
+    Login request = Login.builder().username("unknown").password("password").build();
 
     when(userRepository.findByUsername(request.getUsername())).thenReturn(Optional.empty());
 

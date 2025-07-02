@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group4.gamehub.dto.requests.LoginRequest;
-import com.group4.gamehub.dto.requests.RegisterRequest;
+import com.group4.gamehub.dto.requests.auth.Login;
+import com.group4.gamehub.dto.requests.auth.Register;
 import com.group4.gamehub.repository.UserRepository;
 import com.group4.gamehub.util.Role;
 import java.util.UUID;
@@ -34,15 +34,15 @@ class GamehubApplicationTests {
   @Autowired private ObjectMapper objectMapper;
   @Autowired private UserRepository userRepository;
 
-  private final RegisterRequest registerRequest =
-      RegisterRequest.builder()
+  private final Register register =
+      Register.builder()
           .username("sebas")
           .email("sebas@example.com")
           .password("123456")
           .build();
 
-  private final LoginRequest loginRequest =
-      LoginRequest.builder().username("sebas").password("123456").build();
+  private final Login login =
+      Login.builder().username("sebas").password("123456").build();
 
   private String jwtToken;
 
@@ -54,7 +54,7 @@ class GamehubApplicationTests {
               .perform(
                   post("/api/auth/register")
                       .contentType(MediaType.APPLICATION_JSON)
-                      .content(objectMapper.writeValueAsString(registerRequest)))
+                      .content(objectMapper.writeValueAsString(register)))
               .andExpect(status().isCreated())
               .andExpect(jsonPath("$.token").exists())
               .andReturn()
@@ -68,7 +68,7 @@ class GamehubApplicationTests {
               .perform(
                   post("/api/auth/login")
                       .contentType(MediaType.APPLICATION_JSON)
-                      .content(objectMapper.writeValueAsString(loginRequest)))
+                      .content(objectMapper.writeValueAsString(login)))
               .andExpect(status().isOk())
               .andExpect(jsonPath("$.token").exists())
               .andReturn()
@@ -81,7 +81,7 @@ class GamehubApplicationTests {
 
   @Test
   void loginWithAdminUser_ReturnsOk() throws Exception {
-    LoginRequest adminLogin = LoginRequest.builder().username("admin").password("admin123").build();
+    Login adminLogin = Login.builder().username("admin").password("admin123").build();
 
     mockMvc
         .perform(
@@ -94,8 +94,8 @@ class GamehubApplicationTests {
 
   @Test
   void registerExistingEmail_ReturnsConflict() throws Exception {
-    RegisterRequest duplicateEmail =
-        RegisterRequest.builder()
+    Register duplicateEmail =
+        Register.builder()
             .username("otheruser")
             .email("sebas@example.com")
             .password("abc123")
@@ -112,8 +112,8 @@ class GamehubApplicationTests {
 
   @Test
   void loginWithInvalidUser_ReturnsBadRequest() throws Exception {
-    LoginRequest invalidLogin =
-        LoginRequest.builder().username("notexists").password("123456").build();
+    Login invalidLogin =
+        Login.builder().username("notexists").password("123456").build();
 
     mockMvc
         .perform(
@@ -157,8 +157,8 @@ class GamehubApplicationTests {
   void getUserById_ReturnsPublicUserResponse() throws Exception {
     String username = "testuser";
     if (userRepository.findByUsername(username).isEmpty()) {
-      RegisterRequest registerRequest =
-          RegisterRequest.builder()
+      Register register =
+          Register.builder()
               .username(username)
               .email("testuser@example.com")
               .password("123456")
@@ -168,7 +168,7 @@ class GamehubApplicationTests {
           .perform(
               post("/api/auth/register")
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(objectMapper.writeValueAsString(registerRequest)))
+                  .content(objectMapper.writeValueAsString(register)))
           .andExpect(status().isCreated());
     }
 

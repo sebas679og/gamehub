@@ -1,4 +1,4 @@
-package com.group4.gamehub.dto.responses;
+package com.group4.gamehub.dto.responses.match;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class MatchResponse {
+public class Match {
 
   /** Name of the tournament to which the match belongs. */
   @JsonProperty("tournament_name")

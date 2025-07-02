@@ -1,4 +1,4 @@
-package com.group4.gamehub.dto.requests;
+package com.group4.gamehub.dto.requests.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class LoginRequest {
+public class Login {
 
   /** The user's username. Must not be blank. */
   @NotBlank(message = "Username must not be blank")

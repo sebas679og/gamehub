@@ -1,7 +1,7 @@
 package com.group4.gamehub.service.userservice;
 
-import com.group4.gamehub.dto.responses.PublicUserResponse;
-import com.group4.gamehub.dto.responses.UserResponse;
+import com.group4.gamehub.dto.responses.user.PublicUser;
+import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
@@ -46,11 +46,11 @@ public class UserServiceImpl implements UserServiceInterface {
    * Retrieves full user details by username.
    *
    * @param username the user's username
-   * @return a {@link UserResponse} containing the user's information
+   * @return a {@link User} containing the user's information
    * @throws NotFoundException if no user is found with the given username
    */
   @Override
-  public UserResponse findByUsername(String username) {
+  public User findByUsername(String username) {
     UserEntity userEntity =
         userRepository
             .findByUsername(username)
@@ -62,11 +62,11 @@ public class UserServiceImpl implements UserServiceInterface {
    * Retrieves public user details by user ID.
    *
    * @param id the user's unique identifier
-   * @return a {@link PublicUserResponse} containing non-sensitive user information
+   * @return a {@link PublicUser} containing non-sensitive user information
    * @throws NotFoundException if no user is found with the given ID
    */
   @Override
-  public PublicUserResponse findById(UUID id) {
+  public PublicUser findById(UUID id) {
     UserEntity userEntity =
         userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     return userMapper.toPublicUserResponse(userEntity);

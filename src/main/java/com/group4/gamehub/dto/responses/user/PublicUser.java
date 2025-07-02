@@ -1,22 +1,19 @@
-package com.group4.gamehub.dto.responses;
+package com.group4.gamehub.dto.responses.user;
 
 import com.group4.gamehub.util.Role;
 import lombok.Builder;
 import lombok.Getter;
 
 /**
- * Data Transfer Object (DTO) for returning full user details. Typically used in authenticated
- * endpoints or admin views.
+ * Data Transfer Object (DTO) for exposing public user information. Intended for use in responses
+ * where sensitive user data should be excluded.
  */
 @Getter
 @Builder
-public class UserResponse {
+public class PublicUser {
 
   /** The user's username. */
   private String username;
-
-  /** The user's email address. */
-  private String email;
 
   /** The user's assigned role (e.g., USER, ADMIN). */
   private Role role;

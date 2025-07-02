@@ -8,8 +8,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.group4.gamehub.dto.responses.PublicUserResponse;
-import com.group4.gamehub.dto.responses.UserResponse;
+
+import com.group4.gamehub.dto.responses.user.PublicUser;
+import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
@@ -53,12 +54,12 @@ class UserServiceImplTest {
   void findByUsername_ExistingUser_ReturnsUserResponse() {
     String username = "testuser";
     UserEntity user = UserEntity.builder().username(username).build();
-    UserResponse response = UserResponse.builder().username(username).build();
+    User response = User.builder().username(username).build();
 
     when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
     when(userMapper.toUserResponse(user)).thenReturn(response);
 
-    UserResponse result = userService.findByUsername(username);
+    User result = userService.findByUsername(username);
 
     assertEquals(username, result.getUsername());
     verify(userRepository).findByUsername(username);
@@ -87,8 +88,8 @@ class UserServiceImplTest {
             .points(100L)
             .build();
 
-    PublicUserResponse response =
-        PublicUserResponse.builder()
+    PublicUser response =
+        PublicUser.builder()
             .username("publicUser")
             .role(Role.PLAYER)
             .rank("Silver")
@@ -98,7 +99,7 @@ class UserServiceImplTest {
     when(userRepository.findById(id)).thenReturn(Optional.of(user));
     when(userMapper.toPublicUserResponse(user)).thenReturn(response);
 
-    PublicUserResponse result = userService.findById(id);
+    PublicUser result = userService.findById(id);
 
     assertEquals("publicUser", result.getUsername());
     assertEquals(Role.PLAYER, result.getRole());

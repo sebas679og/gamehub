@@ -1,7 +1,7 @@
 package com.group4.gamehub.service.matchservice;
 
-import com.group4.gamehub.dto.requests.MatchRequest;
-import com.group4.gamehub.dto.responses.MatchResponse;
+import com.group4.gamehub.dto.requests.match.Match;
+import com.group4.gamehub.dto.responses.match.Matchs;
 import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.MatchMapper;
 import com.group4.gamehub.model.MatchEntity;
@@ -128,18 +128,24 @@ public class MatchServiceImpl implements MatchService {
 
   /** {@inheritDoc} */
   @Override
-  public List<MatchResponse> generateMatchesForTournament(UUID tournamentId) {
+  public Matchs generateMatchesForTournament(UUID tournamentId) {
     TournamentEntity tournament = getTournamentById(tournamentId);
     List<UserEntity> players = getValidPlayers(tournament);
     int nextRound = getNextRoundNumber(tournamentId);
     List<MatchEntity> matches = saveGeneratedMatches(tournament, players, nextRound);
 
-    return matches.stream().map(matchMapper::toMatchResponse).toList();
+    List<com.group4.gamehub.dto.responses.match.Match> matchResponses = matches.stream()
+            .map(matchMapper::toMatchResponse)
+            .toList();
+
+    return Matchs.builder()
+            .matches(matchResponses)
+            .build();
   }
 
   /** {@inheritDoc} */
   @Override
-  public MatchResponse getMatchById(UUID matchId) {
+  public com.group4.gamehub.dto.responses.match.Match getMatchById(UUID matchId) {
     return matchMapper.toMatchResponse(
         matchRepository
             .findById(matchId)
@@ -148,7 +154,7 @@ public class MatchServiceImpl implements MatchService {
 
   /** {@inheritDoc} */
   @Override
-  public MatchResponse updateMatchResult(UUID matchId, MatchRequest matchRequest) {
+  public com.group4.gamehub.dto.responses.match.Match updateMatchResult(UUID matchId, Match matchRequest) {
     MatchEntity match =
         matchRepository
             .findById(matchId)

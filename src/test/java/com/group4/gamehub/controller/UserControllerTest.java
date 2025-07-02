@@ -5,8 +5,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.group4.gamehub.dto.responses.PublicUserResponse;
-import com.group4.gamehub.dto.responses.UserResponse;
+
+import com.group4.gamehub.dto.responses.user.PublicUser;
+import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.service.userservice.UserServiceInterface;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +34,8 @@ class UserControllerTest {
   @Test
   void getCurrentUser_ReturnsUserResponse() {
     String username = "testuser";
-    UserResponse expectedResponse =
-        UserResponse.builder()
+    User expectedResponse =
+        User.builder()
             .username("testuser")
             .email("test@email.com")
             .rank("test-rank")
@@ -43,7 +44,7 @@ class UserControllerTest {
     when(authentication.getName()).thenReturn(username);
     when(userService.findByUsername(username)).thenReturn(expectedResponse);
 
-    ResponseEntity<UserResponse> response = userController.getCurrentUser(authentication);
+    ResponseEntity<User> response = userController.getCurrentUser(authentication);
 
     assertEquals(200, response.getStatusCode().value());
     assertEquals(expectedResponse, response.getBody());
@@ -53,11 +54,11 @@ class UserControllerTest {
   @Test
   void getUserById_ReturnsPublicUserResponse() {
     UUID userId = UUID.randomUUID();
-    PublicUserResponse expectedResponse =
-        PublicUserResponse.builder().username("testuser").rank("test-rank").points(100L).build();
+    PublicUser expectedResponse =
+        PublicUser.builder().username("testuser").rank("test-rank").points(100L).build();
     when(userService.findById(userId)).thenReturn(expectedResponse);
 
-    ResponseEntity<PublicUserResponse> response = userController.getUserById(userId);
+    ResponseEntity<PublicUser> response = userController.getUserById(userId);
 
     assertEquals(200, response.getStatusCode().value());
     assertEquals(expectedResponse, response.getBody());

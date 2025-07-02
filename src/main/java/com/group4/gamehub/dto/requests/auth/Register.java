@@ -1,4 +1,4 @@
-package com.group4.gamehub.dto.requests;
+package com.group4.gamehub.dto.requests.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class RegisterRequest {
+public class Register {
 
   /** Desired username for the new user. Must not be blank. */
   @NotBlank(message = "Username must not be blank")

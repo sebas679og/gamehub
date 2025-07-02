@@ -1,8 +1,8 @@
 package com.group4.gamehub.controller;
 
-import com.group4.gamehub.dto.requests.LoginRequest;
-import com.group4.gamehub.dto.requests.RegisterRequest;
-import com.group4.gamehub.dto.responses.AuthResponse;
+import com.group4.gamehub.dto.requests.auth.Login;
+import com.group4.gamehub.dto.requests.auth.Register;
+import com.group4.gamehub.dto.responses.auth.AuthResponse;
 import com.group4.gamehub.dto.responses.ErrorResponse;
 import com.group4.gamehub.service.authservice.AuthServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,7 +67,7 @@ public class AuthController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+  public ResponseEntity<AuthResponse> register(@Valid @RequestBody Register request) {
     return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
   }
 
@@ -97,7 +97,7 @@ public class AuthController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+  public ResponseEntity<AuthResponse> login(@Valid @RequestBody Login request) {
     return ResponseEntity.ok(authService.login(request));
   }
 }

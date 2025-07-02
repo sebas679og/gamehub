@@ -1,4 +1,4 @@
-package com.group4.gamehub.dto.responses;
+package com.group4.gamehub.dto.responses.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

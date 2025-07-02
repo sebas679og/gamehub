@@ -1,4 +1,4 @@
-package com.group4.gamehub.dto.requests;
+package com.group4.gamehub.dto.requests.match;
 
 import com.group4.gamehub.util.Result;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MatchRequest {
+public class Match {
 
   /**
    * The result of the match.

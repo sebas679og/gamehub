@@ -6,8 +6,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.group4.gamehub.dto.requests.MatchRequest;
-import com.group4.gamehub.dto.responses.MatchResponse;
+import com.group4.gamehub.dto.requests.match.Match;
+import com.group4.gamehub.dto.responses.match.Matchs;
 import com.group4.gamehub.service.matchservice.MatchService;
 import java.util.Arrays;
 import java.util.List;
@@ -32,14 +32,16 @@ class MatchControllerTest {
   }
 
   @Test
-  void generateMatches_ReturnsCreatedAndList() {
+  void generateMatches_ReturnsCreatedAndMatchsResponse() {
     UUID tournamentId = UUID.randomUUID();
-    MatchResponse matchResponse1 = mock(MatchResponse.class);
-    MatchResponse matchResponse2 = mock(MatchResponse.class);
-    List<MatchResponse> expected = Arrays.asList(matchResponse1, matchResponse2);
+    com.group4.gamehub.dto.responses.match.Match match1 = mock(com.group4.gamehub.dto.responses.match.Match.class);
+    com.group4.gamehub.dto.responses.match.Match match2 = mock(com.group4.gamehub.dto.responses.match.Match.class);
+    Matchs expected = Matchs.builder()
+            .matches(Arrays.asList(match1, match2))
+            .build();
     when(matchService.generateMatchesForTournament(tournamentId)).thenReturn(expected);
 
-    ResponseEntity<List<MatchResponse>> response = matchController.generateMatches(tournamentId);
+    ResponseEntity<Matchs> response = matchController.generateMatches(tournamentId);
 
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     assertEquals(expected, response.getBody());
@@ -49,10 +51,10 @@ class MatchControllerTest {
   @Test
   void getMatchById_ReturnsOkAndMatchResponse() {
     UUID matchId = UUID.randomUUID();
-    MatchResponse expected = mock(MatchResponse.class);
+    com.group4.gamehub.dto.responses.match.Match expected = mock(com.group4.gamehub.dto.responses.match.Match.class);
     when(matchService.getMatchById(matchId)).thenReturn(expected);
 
-    ResponseEntity<MatchResponse> response = matchController.getMatchById(matchId);
+    ResponseEntity<com.group4.gamehub.dto.responses.match.Match> response = matchController.getMatchById(matchId);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(expected, response.getBody());
@@ -62,11 +64,11 @@ class MatchControllerTest {
   @Test
   void updateMatchResult_ReturnsOkAndUpdatedMatchResponse() {
     UUID matchId = UUID.randomUUID();
-    MatchRequest request = new MatchRequest();
-    MatchResponse expected = mock(MatchResponse.class);
+    Match request = new Match();
+    com.group4.gamehub.dto.responses.match.Match expected = mock(com.group4.gamehub.dto.responses.match.Match.class);
     when(matchService.updateMatchResult(matchId, request)).thenReturn(expected);
 
-    ResponseEntity<MatchResponse> response = matchController.updateMatchResult(matchId, request);
+    ResponseEntity<com.group4.gamehub.dto.responses.match.Match> response = matchController.updateMatchResult(matchId, request);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(expected, response.getBody());

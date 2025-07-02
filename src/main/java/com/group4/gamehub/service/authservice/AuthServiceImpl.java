@@ -1,9 +1,9 @@
 package com.group4.gamehub.service.authservice;
 
 import com.group4.gamehub.config.JwtService;
-import com.group4.gamehub.dto.requests.LoginRequest;
-import com.group4.gamehub.dto.requests.RegisterRequest;
-import com.group4.gamehub.dto.responses.AuthResponse;
+import com.group4.gamehub.dto.requests.auth.Login;
+import com.group4.gamehub.dto.requests.auth.Register;
+import com.group4.gamehub.dto.responses.auth.AuthResponse;
 import com.group4.gamehub.exception.UserAlreadyExistsException;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthServiceInterface {
    * @throws UserAlreadyExistsException if the email or username already exists
    */
   @Override
-  public AuthResponse register(RegisterRequest request) {
+  public AuthResponse register(Register request) {
     if (userRepository.existsByEmail(request.getEmail())) {
       throw new UserAlreadyExistsException("E-mail already registered");
     }
@@ -83,7 +83,7 @@ public class AuthServiceImpl implements AuthServiceInterface {
    * @throws RuntimeException if the user is not found
    */
   @Override
-  public AuthResponse login(LoginRequest request) {
+  public AuthResponse login(Login request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
