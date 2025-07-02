@@ -2,7 +2,9 @@ package com.group4.gamehub.service.tournamentservice;
 
 import com.group4.gamehub.dto.requests.tournament.TournamentsRequest;
 import com.group4.gamehub.dto.responses.tournament.TournamentBasic;
+import com.group4.gamehub.dto.responses.tournament.TournamentDetails;
 import com.group4.gamehub.dto.responses.tournament.TournamentsResponse;
+import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.TournamentMapper;
 import com.group4.gamehub.model.TournamentEntity;
 import com.group4.gamehub.repository.TournamentRepository;
@@ -57,5 +59,12 @@ public class TournamentServiceImp implements TournamentService{
         return TournamentsResponse.builder()
                 .tournaments(tournaments)
                 .build();
+    }
+
+    @Override
+    public TournamentDetails getTournamentDetails(String slug) {
+        return tournamentRepository.findBySlug(slug)
+                .map(tournamentMapper::toTournamentDetailsResponse)
+                .orElseThrow(() -> new NotFoundException("Tournament not found"));
     }
 }

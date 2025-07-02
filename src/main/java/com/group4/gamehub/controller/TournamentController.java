@@ -1,6 +1,7 @@
 package com.group4.gamehub.controller;
 
 import com.group4.gamehub.dto.requests.tournament.TournamentsRequest;
+import com.group4.gamehub.dto.responses.tournament.TournamentDetails;
 import com.group4.gamehub.dto.responses.tournament.TournamentsResponse;
 import com.group4.gamehub.service.tournamentservice.TournamentService;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,10 @@ public class TournamentController {
     @GetMapping("/")
     public ResponseEntity<TournamentsResponse> getTournaments() {
         return ResponseEntity.ok(tournamentService.getTournaments());
+    }
+
+    @GetMapping("/{slug}")
+    public ResponseEntity<TournamentDetails> getTournamentDetails(String slug) {
+        return ResponseEntity.ok(tournamentService.getTournamentDetails(slug));
     }
 }

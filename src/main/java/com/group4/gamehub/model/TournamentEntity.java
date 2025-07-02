@@ -12,7 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -56,4 +58,8 @@ public class TournamentEntity {
       joinColumns = @JoinColumn(name = "tournament_id"),
       inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<UserEntity> userEntities;
+
+  @OneToMany(mappedBy = "tournament", fetch = FetchType.LAZY)
+  private List<MatchEntity> matches;
+
 }

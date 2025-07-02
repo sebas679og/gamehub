@@ -5,6 +5,7 @@ import com.group4.gamehub.util.Status;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -21,7 +22,10 @@ public interface TournamentRepository extends JpaRepository<TournamentEntity, UU
    * @return an {@link Optional} containing the tournament, if found
    */
   Optional<TournamentEntity> findById(UUID tournamentId);
+
+  @EntityGraph(attributePaths = {"userEntities", "matches"})
   Optional<TournamentEntity> findBySlug(String slug);
+
   boolean existsBySlug(String slug);
   List<TournamentEntity> findAllByStatus(Status status);
 }
