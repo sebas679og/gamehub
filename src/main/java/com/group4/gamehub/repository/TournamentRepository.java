@@ -20,4 +20,8 @@ public interface TournamentRepository extends JpaRepository<TournamentEntity, UU
    */
   @Override
   Optional<TournamentEntity> findById(UUID tournamentId);
+
+  Optional<TournamentEntity> findBySlug(String slug);
+
+  boolean existsBySlug(String slug);
 }

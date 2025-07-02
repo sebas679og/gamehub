@@ -17,9 +17,8 @@ public class TournamentRequest {
     @NotNull(message = "Name must not be blank or null.")
     private String name;
 
-    @NotBlank(message = "the number of players cannot be null or blank.")
-    @NotNull(message = "the number of players cannot be null or blank.")
     @Min(value = 2, message = "The maximum number of players must be greater than or equal to 2.")
     @JsonProperty(value = "max_players")
-    private int maxPlayers;
+    @Builder.Default
+    private Integer maxPlayers = 2;
 }

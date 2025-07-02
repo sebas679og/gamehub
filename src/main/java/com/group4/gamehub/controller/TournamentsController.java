@@ -1,6 +1,8 @@
 package com.group4.gamehub.controller;
 
+import com.group4.gamehub.dto.requests.tournament.TournamentsRequest;
 import com.group4.gamehub.dto.responses.tournament.TournamentsResponse;
+import com.group4.gamehub.service.tournamentservice.TournamentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,16 @@ public class TournamentsController {
 
     public static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
 
+    private final TournamentService tournamentService;
+
+    public TournamentsController(TournamentService tournamentService) {
+        this.tournamentService = tournamentService;
+    }
+
+
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<TournamentsResponse> createTournaments(TournamentsResponse tournamentsResponse) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(tournamentsResponse);
+    public ResponseEntity<TournamentsResponse> createTournaments(TournamentsRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(tournamentService.createTournaments(request));
     }
 }
