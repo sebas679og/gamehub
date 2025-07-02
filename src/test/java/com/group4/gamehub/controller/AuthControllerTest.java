@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import com.group4.gamehub.dto.requests.auth.Login;
 import com.group4.gamehub.dto.requests.auth.Register;
 import com.group4.gamehub.dto.responses.auth.AuthResponse;
-import com.group4.gamehub.service.authservice.AuthServiceInterface;
+import com.group4.gamehub.service.authservice.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 
 class AuthControllerTest {
 
-  @Mock private AuthServiceInterface authService;
+  @Mock private AuthService authService;
 
   @InjectMocks private AuthController authController;
 

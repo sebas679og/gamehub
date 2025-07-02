@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /** Interface for user-related operations such as retrieval by email, username, or ID. */
-public interface UserServiceInterface {
+public interface UserService {
 
   /**
    * Finds a user by their email address.

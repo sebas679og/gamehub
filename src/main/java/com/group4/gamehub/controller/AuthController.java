@@ -4,7 +4,7 @@ import com.group4.gamehub.dto.requests.auth.Login;
 import com.group4.gamehub.dto.requests.auth.Register;
 import com.group4.gamehub.dto.responses.auth.AuthResponse;
 import com.group4.gamehub.dto.responses.ErrorResponse;
-import com.group4.gamehub.service.authservice.AuthServiceInterface;
+import com.group4.gamehub.service.authservice.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,14 +30,14 @@ public class AuthController {
 
   public static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
 
-  private final AuthServiceInterface authService;
+  private final AuthService authService;
 
   /**
    * Constructs the controller with the required authentication service.
    *
    * @param authService the authentication service implementation
    */
-  public AuthController(AuthServiceInterface authService) {
+  public AuthController(AuthService authService) {
     this.authService = authService;
   }
 

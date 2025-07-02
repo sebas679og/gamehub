@@ -3,7 +3,7 @@ package com.group4.gamehub.controller;
 import com.group4.gamehub.dto.responses.ErrorResponse;
 import com.group4.gamehub.dto.responses.user.PublicUser;
 import com.group4.gamehub.dto.responses.user.User;
-import com.group4.gamehub.service.userservice.UserServiceInterface;
+import com.group4.gamehub.service.userservice.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,14 +27,14 @@ public class UserController {
 
   public static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
 
-  private final UserServiceInterface userService;
+  private final UserService userService;
 
   /**
    * Constructs the controller with the required user service.
    *
    * @param userService the service for accessing user information
    */
-  public UserController(UserServiceInterface userService) {
+  public UserController(UserService userService) {
     this.userService = userService;
   }
 

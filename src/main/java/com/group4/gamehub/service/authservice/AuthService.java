@@ -5,7 +5,7 @@ import com.group4.gamehub.dto.requests.auth.Register;
 import com.group4.gamehub.dto.responses.auth.AuthResponse;
 
 /** Interface defining authentication operations such as user registration and login. */
-public interface AuthServiceInterface {
+public interface AuthService {
 
   /**
    * Registers a new user based on the provided registration request.

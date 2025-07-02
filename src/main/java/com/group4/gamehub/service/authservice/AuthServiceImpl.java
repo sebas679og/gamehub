@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * JWT tokens upon successful authentication.
  */
 @Service
-public class AuthServiceImpl implements AuthServiceInterface {
+public class AuthServiceImpl implements AuthService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;

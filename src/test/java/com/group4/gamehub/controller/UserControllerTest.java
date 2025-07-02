@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.group4.gamehub.dto.responses.user.PublicUser;
 import com.group4.gamehub.dto.responses.user.User;
-import com.group4.gamehub.service.userservice.UserServiceInterface;
+import com.group4.gamehub.service.userservice.UserService;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import org.springframework.security.core.Authentication;
 
 class UserControllerTest {
 
-  @Mock private UserServiceInterface userService;
+  @Mock private UserService userService;
 
   @InjectMocks private UserController userController;
 
