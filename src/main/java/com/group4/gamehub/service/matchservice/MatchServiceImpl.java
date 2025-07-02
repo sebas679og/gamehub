@@ -1,7 +1,8 @@
 package com.group4.gamehub.service.matchservice;
 
-import com.group4.gamehub.dto.requests.match.Match;
-import com.group4.gamehub.dto.responses.match.Matchs;
+import com.group4.gamehub.dto.requests.match.MatchRequest;
+import com.group4.gamehub.dto.responses.match.MatchResponse;
+import com.group4.gamehub.dto.responses.match.MatchsResponse;
 import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.MatchMapper;
 import com.group4.gamehub.model.MatchEntity;
@@ -128,24 +129,24 @@ public class MatchServiceImpl implements MatchService {
 
   /** {@inheritDoc} */
   @Override
-  public Matchs generateMatchesForTournament(UUID tournamentId) {
+  public MatchsResponse generateMatchesForTournament(UUID tournamentId) {
     TournamentEntity tournament = getTournamentById(tournamentId);
     List<UserEntity> players = getValidPlayers(tournament);
     int nextRound = getNextRoundNumber(tournamentId);
     List<MatchEntity> matches = saveGeneratedMatches(tournament, players, nextRound);
 
-    List<com.group4.gamehub.dto.responses.match.Match> matchResponses = matches.stream()
+    List<MatchResponse> matchResponseRespons = matches.stream()
             .map(matchMapper::toMatchResponse)
             .toList();
 
-    return Matchs.builder()
-            .matches(matchResponses)
+    return MatchsResponse.builder()
+            .matchResponses(matchResponseRespons)
             .build();
   }
 
   /** {@inheritDoc} */
   @Override
-  public com.group4.gamehub.dto.responses.match.Match getMatchById(UUID matchId) {
+  public MatchResponse getMatchById(UUID matchId) {
     return matchMapper.toMatchResponse(
         matchRepository
             .findById(matchId)
@@ -154,7 +155,7 @@ public class MatchServiceImpl implements MatchService {
 
   /** {@inheritDoc} */
   @Override
-  public com.group4.gamehub.dto.responses.match.Match updateMatchResult(UUID matchId, Match matchRequest) {
+  public MatchResponse updateMatchResult(UUID matchId, MatchRequest matchRequest) {
     MatchEntity match =
         matchRepository
             .findById(matchId)

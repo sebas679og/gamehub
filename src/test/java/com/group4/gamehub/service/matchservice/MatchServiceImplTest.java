@@ -7,8 +7,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.group4.gamehub.dto.requests.match.Match;
-import com.group4.gamehub.dto.responses.match.Matchs;
+import com.group4.gamehub.dto.requests.match.MatchRequest;
+import com.group4.gamehub.dto.responses.match.MatchResponse;
+import com.group4.gamehub.dto.responses.match.MatchsResponse;
 import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.mapper.MatchMapper;
 import com.group4.gamehub.model.MatchEntity;
@@ -57,13 +58,13 @@ class MatchServiceImplTest {
     List<MatchEntity> matchEntities = List.of(matchEntity);
     when(matchRepository.saveAll(anyList())).thenReturn(matchEntities);
 
-    com.group4.gamehub.dto.responses.match.Match match = mock(com.group4.gamehub.dto.responses.match.Match.class);
-    when(matchMapper.toMatchResponse(matchEntity)).thenReturn(match);
+    MatchResponse matchResponse = mock(MatchResponse.class);
+    when(matchMapper.toMatchResponse(matchEntity)).thenReturn(matchResponse);
 
-    Matchs result = matchService.generateMatchesForTournament(tournamentId);
+    MatchsResponse result = matchService.generateMatchesForTournament(tournamentId);
 
-    assertEquals(1, result.getMatches().size());
-    assertEquals(match, result.getMatches().get(0));
+    assertEquals(1, result.getMatchResponses().size());
+    assertEquals(matchResponse, result.getMatchResponses().get(0));
     verify(matchRepository).saveAll(anyList());
   }
 
@@ -84,14 +85,14 @@ class MatchServiceImplTest {
   void getMatchById_ReturnsMatchResponse() {
     UUID matchId = UUID.randomUUID();
     MatchEntity matchEntity = mock(MatchEntity.class);
-    com.group4.gamehub.dto.responses.match.Match match = mock(com.group4.gamehub.dto.responses.match.Match.class);
+    MatchResponse matchResponse = mock(MatchResponse.class);
 
     when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
-    when(matchMapper.toMatchResponse(matchEntity)).thenReturn(match);
+    when(matchMapper.toMatchResponse(matchEntity)).thenReturn(matchResponse);
 
-    com.group4.gamehub.dto.responses.match.Match result = matchService.getMatchById(matchId);
+    MatchResponse result = matchService.getMatchById(matchId);
 
-    assertEquals(match, result);
+    assertEquals(matchResponse, result);
   }
 
   @Test
@@ -105,26 +106,26 @@ class MatchServiceImplTest {
   @Test
   void updateMatchResult_UpdatesAndReturnsMatchResponse() {
     UUID matchId = UUID.randomUUID();
-    Match request = mock(Match.class);
+    MatchRequest request = mock(MatchRequest.class);
     MatchEntity matchEntity = mock(MatchEntity.class);
     MatchEntity updatedEntity = mock(MatchEntity.class);
-    com.group4.gamehub.dto.responses.match.Match match = mock(com.group4.gamehub.dto.responses.match.Match.class);
+    MatchResponse matchResponse = mock(MatchResponse.class);
 
     when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
     when(matchEntity.getResult()).thenReturn(Result.PENDING);
     when(matchRepository.save(matchEntity)).thenReturn(updatedEntity);
-    when(matchMapper.toMatchResponse(updatedEntity)).thenReturn(match);
+    when(matchMapper.toMatchResponse(updatedEntity)).thenReturn(matchResponse);
 
-    com.group4.gamehub.dto.responses.match.Match result = matchService.updateMatchResult(matchId, request);
+    MatchResponse result = matchService.updateMatchResult(matchId, request);
 
     verify(matchEntity).setResult(request.getResult());
-    assertEquals(match, result);
+    assertEquals(matchResponse, result);
   }
 
   @Test
   void updateMatchResult_ThrowsIfResultAlreadySet() {
     UUID matchId = UUID.randomUUID();
-    Match request = mock(Match.class);
+    MatchRequest request = mock(MatchRequest.class);
     MatchEntity matchEntity = mock(MatchEntity.class);
 
     when(matchRepository.findById(matchId)).thenReturn(Optional.of(matchEntity));
@@ -136,7 +137,7 @@ class MatchServiceImplTest {
   @Test
   void updateMatchResult_ThrowsIfNotFound() {
     UUID matchId = UUID.randomUUID();
-    Match request = mock(Match.class);
+    MatchRequest request = mock(MatchRequest.class);
 
     when(matchRepository.findById(matchId)).thenReturn(Optional.empty());
 

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Tournament {
+public class TournamentRequest {
 
     @NotBlank(message = "Name must not be blank or null.")
     @NotNull(message = "Name must not be blank or null.")

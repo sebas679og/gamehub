@@ -3,7 +3,7 @@ package com.group4.gamehub.dto.responses.tournament;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.group4.gamehub.util.Status;
 
-public class Tournament {
+public class TournamentResponse {
 
     private String slug;
     private String name;

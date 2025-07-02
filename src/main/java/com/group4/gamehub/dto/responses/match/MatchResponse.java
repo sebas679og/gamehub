@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class Match {
+public class MatchResponse {
 
   /** Name of the tournament to which the match belongs. */
   @JsonProperty("tournament_name")

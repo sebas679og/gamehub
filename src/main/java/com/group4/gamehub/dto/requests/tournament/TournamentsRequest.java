@@ -10,9 +10,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class Tournaments {
+public class TournamentsRequest {
 
     @NotBlank(message = "Tournaments list must not be blank or null.")
     @NotNull(message = "Tournaments list must not be blank or null.")
-    private List<Tournament> tournaments;
+    private List<TournamentRequest> tournamentRequests;
 }

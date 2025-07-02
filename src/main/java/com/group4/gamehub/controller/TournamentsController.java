@@ -1,6 +1,6 @@
 package com.group4.gamehub.controller;
 
-import com.group4.gamehub.dto.responses.tournament.Tournaments;
+import com.group4.gamehub.dto.responses.tournament.TournamentsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class TournamentsController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Tournaments> createTournaments(Tournaments tournaments) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(tournaments);
+    public ResponseEntity<TournamentsResponse> createTournaments(TournamentsResponse tournamentsResponse) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(tournamentsResponse);
     }
 }

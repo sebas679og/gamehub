@@ -1,8 +1,9 @@
 package com.group4.gamehub.controller;
 
-import com.group4.gamehub.dto.requests.match.Match;
+import com.group4.gamehub.dto.requests.match.MatchRequest;
 import com.group4.gamehub.dto.responses.ErrorResponse;
-import com.group4.gamehub.dto.responses.match.Matchs;
+import com.group4.gamehub.dto.responses.match.MatchResponse;
+import com.group4.gamehub.dto.responses.match.MatchsResponse;
 import com.group4.gamehub.service.matchservice.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -62,7 +63,7 @@ public class MatchController {
    * <p>Accessible only to users with the ADMIN role.
    *
    * @param tournamentId the UUID of the tournament
-   * @return a list of generated {@link com.group4.gamehub.dto.responses.match.Match} objects
+   * @return a list of generated {@link MatchResponse} objects
    */
   @PostMapping("/generate/{tournamentId}")
   @PreAuthorize("hasRole('ADMIN')")
@@ -78,7 +79,7 @@ public class MatchController {
             content =
                 @Content(
                     mediaType = APPLICATION_JSON,
-                    schema = @Schema(implementation = com.group4.gamehub.dto.responses.match.Match.class))),
+                    schema = @Schema(implementation = MatchResponse.class))),
         @ApiResponse(
             responseCode = "404",
             description = "Not Found - Tournament with the specified ID was not found.",
@@ -101,7 +102,7 @@ public class MatchController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<Matchs> generateMatches(@PathVariable UUID tournamentId) {
+  public ResponseEntity<MatchsResponse> generateMatches(@PathVariable UUID tournamentId) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(matchService.generateMatchesForTournament(tournamentId));
   }
@@ -110,7 +111,7 @@ public class MatchController {
    * Retrieves a specific match by its unique ID.
    *
    * @param matchId the UUID of the match
-   * @return the corresponding {@link com.group4.gamehub.dto.responses.match.Match}
+   * @return the corresponding {@link MatchResponse}
    */
   @GetMapping("/{matchId}")
   @Operation(
@@ -123,7 +124,7 @@ public class MatchController {
             content =
                 @Content(
                     mediaType = APPLICATION_JSON,
-                    schema = @Schema(implementation = com.group4.gamehub.dto.responses.match.Match.class))),
+                    schema = @Schema(implementation = MatchResponse.class))),
         @ApiResponse(
             responseCode = "404",
             description = "Not Found - Match with the specified ID was not found.",
@@ -139,7 +140,7 @@ public class MatchController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<com.group4.gamehub.dto.responses.match.Match> getMatchById(@PathVariable UUID matchId) {
+  public ResponseEntity<MatchResponse> getMatchById(@PathVariable UUID matchId) {
     return ResponseEntity.ok(matchService.getMatchById(matchId));
   }
 
@@ -149,8 +150,8 @@ public class MatchController {
    * <p>Accessible only to users with the ADMIN role.
    *
    * @param matchId the UUID of the match
-   * @param match the result update request body
-   * @return the updated {@link com.group4.gamehub.dto.responses.match.Match}
+   * @param matchRequest the result update request body
+   * @return the updated {@link MatchResponse}
    */
   @PutMapping("/{matchId}/result")
   @PreAuthorize("hasRole('ADMIN')")
@@ -165,7 +166,7 @@ public class MatchController {
             content =
                 @Content(
                     mediaType = APPLICATION_JSON,
-                    schema = @Schema(implementation = com.group4.gamehub.dto.responses.match.Match.class))),
+                    schema = @Schema(implementation = MatchResponse.class))),
         @ApiResponse(
             responseCode = "400",
             description = "Bad Request - Invalid request body or match data.",
@@ -195,8 +196,8 @@ public class MatchController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<com.group4.gamehub.dto.responses.match.Match> updateMatchResult(
-      @PathVariable UUID matchId, @RequestBody Match match) {
-    return ResponseEntity.ok(matchService.updateMatchResult(matchId, match));
+  public ResponseEntity<MatchResponse> updateMatchResult(
+      @PathVariable UUID matchId, @RequestBody MatchRequest matchRequest) {
+    return ResponseEntity.ok(matchService.updateMatchResult(matchId, matchRequest));
   }
 }

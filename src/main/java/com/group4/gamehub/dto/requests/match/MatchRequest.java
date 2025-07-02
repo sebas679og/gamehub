@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Match {
+public class MatchRequest {
 
   /**
    * The result of the match.

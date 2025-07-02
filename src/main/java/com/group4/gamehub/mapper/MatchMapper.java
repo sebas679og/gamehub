@@ -1,12 +1,12 @@
 package com.group4.gamehub.mapper;
 
-import com.group4.gamehub.dto.responses.match.Match;
+import com.group4.gamehub.dto.responses.match.MatchResponse;
 import com.group4.gamehub.model.MatchEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 /**
- * Mapper interface for converting {@link MatchEntity} objects into {@link Match} DTOs.
+ * Mapper interface for converting {@link MatchEntity} objects into {@link MatchResponse} DTOs.
  *
  * <p>This interface uses MapStruct to automatically generate the implementation at build time,
  * facilitating clean and decoupled data transformation logic.
@@ -15,7 +15,7 @@ import org.mapstruct.Mapping;
 public interface MatchMapper {
 
   /**
-   * Maps a {@link MatchEntity} to a {@link Match}, extracting:
+   * Maps a {@link MatchEntity} to a {@link MatchResponse}, extracting:
    *
    * <ul>
    *   <li>tournament name from the tournament entity
@@ -30,5 +30,5 @@ public interface MatchMapper {
   @Mapping(source = "player1.username", target = "player1")
   @Mapping(source = "player2.username", target = "player2")
   @Mapping(source = "result", target = "result")
-  Match toMatchResponse(MatchEntity entity);
+  MatchResponse toMatchResponse(MatchEntity entity);
 }
