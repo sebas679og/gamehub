@@ -1,6 +1,8 @@
 package com.group4.gamehub.repository;
 
 import com.group4.gamehub.model.TournamentEntity;
+import com.group4.gamehub.util.Status;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,10 +20,8 @@ public interface TournamentRepository extends JpaRepository<TournamentEntity, UU
    * @param tournamentId the UUID of the tournament to retrieve
    * @return an {@link Optional} containing the tournament, if found
    */
-  @Override
   Optional<TournamentEntity> findById(UUID tournamentId);
-
   Optional<TournamentEntity> findBySlug(String slug);
-
   boolean existsBySlug(String slug);
+  List<TournamentEntity> findAllByStatus(Status status);
 }

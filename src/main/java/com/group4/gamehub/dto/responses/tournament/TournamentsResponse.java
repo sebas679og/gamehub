@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TournamentsResponse {
-    private List<TournamentResponse> tournamentResponses;
+    private List<TournamentBasic> tournaments;
 }

@@ -1,7 +1,7 @@
 package com.group4.gamehub.service.tournamentservice;
 
 import com.group4.gamehub.dto.requests.tournament.TournamentsRequest;
-import com.group4.gamehub.dto.responses.tournament.TournamentResponse;
+import com.group4.gamehub.dto.responses.tournament.TournamentBasic;
 import com.group4.gamehub.dto.responses.tournament.TournamentsResponse;
 import com.group4.gamehub.mapper.TournamentMapper;
 import com.group4.gamehub.model.TournamentEntity;
@@ -25,7 +25,7 @@ public class TournamentServiceImp implements TournamentService{
 
     @Override
     public TournamentsResponse createTournaments(TournamentsRequest request) {
-        List<TournamentResponse> responses = request.getTournamentRequests().stream()
+        List<TournamentBasic> responses = request.getTournamentRequests().stream()
                 .map(tournament -> {
                     String slug = SlugUtil.toUniqueSlug(
                             tournament.getName(),
@@ -43,7 +43,19 @@ public class TournamentServiceImp implements TournamentService{
                 .collect(Collectors.toList());
 
         return TournamentsResponse.builder()
-                .tournamentResponses(responses)
+                .tournaments(responses)
+                .build();
+    }
+
+    @Override
+    public TournamentsResponse getTournaments() {
+        List<TournamentBasic> tournaments = tournamentRepository.findAllByStatus(Status.CREATED)
+                .stream()
+                .map(tournamentMapper::toTournamentBasicResponse)
+                .collect(Collectors.toList());
+
+        return TournamentsResponse.builder()
+                .tournaments(tournaments)
                 .build();
     }
 }
