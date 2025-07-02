@@ -6,7 +6,7 @@ import com.group4.gamehub.dto.responses.tournament.TournamentPlayers;
 import com.group4.gamehub.model.TournamentEntity;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {MatchMapper.class})
 public interface TournamentMapper {
 
     TournamentPlayers toTournamentResponse(TournamentEntity entity);
