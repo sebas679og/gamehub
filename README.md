@@ -130,7 +130,13 @@ docs/
 - `GET /api/users/me` - Informacion de perfil en sesion
 - `GET /api/users/{id}` - Informacion de perfil segun el ID
 
-### Emparejamiento de Torneos
+#### Torneos
+- `POST /api/tournaments` - Crear un nuevo torneo
+- `GET /api/tournaments` - Listar todos los torneos
+- `GET /api/tournaments/{id}` - Obtener detalles de un torneo específico
+- `POST /api/tournaments/{id}/join` - Unirse a un torneo
+
+#### Emparejamiento de Torneos
 - `POST /api/match/generate/{tournamentId}` - Emparejamiento de jugadores
 - `GET /api/match/{matchID}` - Consulta de emparejamiento de jugadores
 - `PUT /api/match/{matchId}/result` - Actualizacion de Resultados por ronda
