@@ -2,8 +2,8 @@ package com.group4.gamehub.controller;
 
 import com.group4.gamehub.dto.requests.auth.Login;
 import com.group4.gamehub.dto.requests.auth.Register;
-import com.group4.gamehub.dto.responses.auth.AuthResponse;
 import com.group4.gamehub.dto.responses.ErrorResponse;
+import com.group4.gamehub.dto.responses.auth.AuthResponse;
 import com.group4.gamehub.service.authservice.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -5,12 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * DTO representing a tournament along with its maximum number of players.
+ *
+ * <p>Extends {@link TournamentBasic} to include the player capacity detail.
+ */
 @Getter
 @Setter
 @SuperBuilder
-public class TournamentPlayers extends TournamentBasic{
+public class TournamentPlayers extends TournamentBasic {
 
-    @JsonProperty(value = "max_players")
-    private int maxPlayers;
-
+  /** The maximum number of players allowed in the tournament. */
+  @JsonProperty(value = "max_players")
+  private int maxPlayers;
 }

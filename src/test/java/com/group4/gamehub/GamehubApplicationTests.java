@@ -35,14 +35,9 @@ class GamehubApplicationTests {
   @Autowired private UserRepository userRepository;
 
   private final Register register =
-      Register.builder()
-          .username("sebas")
-          .email("sebas@example.com")
-          .password("123456")
-          .build();
+      Register.builder().username("sebas").email("sebas@example.com").password("123456").build();
 
-  private final Login login =
-      Login.builder().username("sebas").password("123456").build();
+  private final Login login = Login.builder().username("sebas").password("123456").build();
 
   private String jwtToken;
 
@@ -112,8 +107,7 @@ class GamehubApplicationTests {
 
   @Test
   void loginWithInvalidUser_ReturnsBadRequest() throws Exception {
-    Login invalidLogin =
-        Login.builder().username("notexists").password("123456").build();
+    Login invalidLogin = Login.builder().username("notexists").password("123456").build();
 
     mockMvc
         .perform(

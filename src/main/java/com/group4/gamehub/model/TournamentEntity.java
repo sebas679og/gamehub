@@ -40,7 +40,7 @@ public class TournamentEntity {
   @Column(nullable = false)
   private String name;
 
-  /** Unique identifier name for url search */
+  /** Unique identifier name for url search. */
   @Column(nullable = false, unique = true)
   private String slug;
 
@@ -59,7 +59,7 @@ public class TournamentEntity {
       inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<UserEntity> userEntities;
 
+  /** List of matches that are part of the tournament. This is a one-to-many relationship. */
   @OneToMany(mappedBy = "tournament", fetch = FetchType.LAZY)
   private List<MatchEntity> matches;
-
 }

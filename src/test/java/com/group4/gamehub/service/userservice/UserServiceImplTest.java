@@ -8,7 +8,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
 import com.group4.gamehub.dto.responses.user.PublicUser;
 import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.exception.NotFoundException;

@@ -5,10 +5,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * DTO representing a user's public information within a tournament context.
+ *
+ * <p>Contains the username and their role (e.g., PLAYER, ADMIN).
+ */
 @Builder
 @Setter
 @Getter
 public class UserTournament {
-    private String username;
-    private Role role;
+
+  /** The username of the participant. */
+  private String username;
+
+  /** The role of the user in the system (e.g., PLAYER, ADMIN). */
+  private Role role;
 }

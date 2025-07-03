@@ -36,7 +36,8 @@ class MatchControllerTest {
     UUID tournamentId = UUID.randomUUID();
     MatchResponse matchResponse1 = mock(MatchResponse.class);
     MatchResponse matchResponse2 = mock(MatchResponse.class);
-    MatchsResponse expected = MatchsResponse.builder()
+    MatchsResponse expected =
+        MatchsResponse.builder()
             .matchResponses(Arrays.asList(matchResponse1, matchResponse2))
             .build();
     when(matchService.generateMatchesForTournament(tournamentId)).thenReturn(expected);

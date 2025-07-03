@@ -5,7 +5,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
 import com.group4.gamehub.dto.responses.user.PublicUser;
 import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.service.userservice.UserService;

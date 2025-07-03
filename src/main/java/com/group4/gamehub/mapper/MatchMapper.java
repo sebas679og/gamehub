@@ -15,12 +15,12 @@ import org.mapstruct.Mapping;
 public interface MatchMapper {
 
   /**
-   * Maps a {@link MatchEntity} to a {@link MatchResponse}, extracting:
+   * Maps a {@link MatchEntity} to a {@link MatchResponse}. Extracts:
    *
    * <ul>
-   *   <li>tournament name from the tournament entity
-   *   <li>player1 and player2 usernames from their respective user entities
-   *   <li>result from the match entity
+   *   <li>tournament name from the tournament entity.
+   *   <li>player1 and player2 usernames from their respective user entities.
+   *   <li>result from the match entity.
    * </ul>
    *
    * @param entity the MatchEntity to map

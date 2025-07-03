@@ -11,8 +11,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of the {@link UserService}. Provides user-related operations such as
- * retrieval by email, username, or ID.
+ * Implementation of the {@link UserService}. Provides user-related operations such as retrieval by
+ * email, username, or ID.
  */
 @Service
 public class UserServiceImpl implements UserService {

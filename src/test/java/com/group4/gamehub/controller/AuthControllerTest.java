@@ -38,8 +38,7 @@ class AuthControllerTest {
             .password("password")
             .build();
     AuthResponse expectedResponse = new AuthResponse("test-token");
-    when(authService.register(ArgumentMatchers.any(Register.class)))
-        .thenReturn(expectedResponse);
+    when(authService.register(ArgumentMatchers.any(Register.class))).thenReturn(expectedResponse);
 
     ResponseEntity<AuthResponse> response = authController.register(request);
 
@@ -50,8 +49,7 @@ class AuthControllerTest {
 
   @Test
   void login_ReturnsOkAndAuthResponse() {
-    Login request =
-        Login.builder().username("testusername").password("password").build();
+    Login request = Login.builder().username("testusername").password("password").build();
     AuthResponse expectedResponse = new AuthResponse("test-token");
     when(authService.login(ArgumentMatchers.any(Login.class))).thenReturn(expectedResponse);
 

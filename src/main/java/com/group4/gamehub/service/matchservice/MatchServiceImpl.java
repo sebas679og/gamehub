@@ -18,12 +18,14 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of {@link MatchService} that provides logic for:
+ * Implementation of {@link MatchService} that provides logic for various match operations.
+ *
+ * <p>These include:
  *
  * <ul>
- *   <li>Generating player matchups in tournaments
- *   <li>Retrieving match details
- *   <li>Updating match results
+ *   <li>Generating player matchups in tournaments.
+ *   <li>Retrieving match details.
+ *   <li>Updating match results.
  * </ul>
  */
 @Service
@@ -33,6 +35,13 @@ public class MatchServiceImpl implements MatchService {
   private final TournamentRepository tournamentRepository;
   private final MatchMapper matchMapper;
 
+  /**
+   * Constructs the match service with required dependencies.
+   *
+   * @param matchRepository the repository for accessing match data
+   * @param tournamentRepository the repository for accessing tournament data
+   * @param matchMapper the mapper for converting {@link MatchEntity} to DTOs
+   */
   public MatchServiceImpl(
       MatchRepository matchRepository,
       TournamentRepository tournamentRepository,
@@ -135,13 +144,10 @@ public class MatchServiceImpl implements MatchService {
     int nextRound = getNextRoundNumber(tournamentId);
     List<MatchEntity> matches = saveGeneratedMatches(tournament, players, nextRound);
 
-    List<MatchResponse> matchResponseRespons = matches.stream()
-            .map(matchMapper::toMatchResponse)
-            .toList();
+    List<MatchResponse> matchResponseRespons =
+        matches.stream().map(matchMapper::toMatchResponse).toList();
 
-    return MatchsResponse.builder()
-            .matchResponses(matchResponseRespons)
-            .build();
+    return MatchsResponse.builder().matchResponses(matchResponseRespons).build();
   }
 
   /** {@inheritDoc} */

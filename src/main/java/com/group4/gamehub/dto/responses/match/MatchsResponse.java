@@ -5,9 +5,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Wrapper DTO for returning a list of match responses.
+ *
+ * <p>This class is typically used to return multiple match results, such as after generating
+ * pairings for a tournament or listing all matches.
+ */
 @Getter
 @Setter
 @Builder
 public class MatchsResponse {
-    private List<MatchResponse> matchResponses;
+
+  /** A list of individual match response objects. */
+  private List<MatchResponse> matchResponses;
 }

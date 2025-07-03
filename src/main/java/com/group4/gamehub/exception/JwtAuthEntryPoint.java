@@ -38,7 +38,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
       AuthenticationException authException)
       throws IOException {
 
-    HttpStatus status = HttpStatus.UNAUTHORIZED;
+    final HttpStatus status = HttpStatus.UNAUTHORIZED;
 
     response.setContentType("application/json;charset=UTF-8");
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
