@@ -2,6 +2,7 @@ package com.group4.gamehub.config;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import java.util.Date;
 import org.springframework.security.core.userdetails.UserDetails;
