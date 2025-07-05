@@ -16,7 +16,6 @@ import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
 import com.group4.gamehub.util.Role;
 import java.util.Optional;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

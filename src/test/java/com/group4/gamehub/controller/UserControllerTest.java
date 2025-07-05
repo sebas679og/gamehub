@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import com.group4.gamehub.dto.responses.user.PublicUser;
 import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.service.userservice.UserService;
-import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

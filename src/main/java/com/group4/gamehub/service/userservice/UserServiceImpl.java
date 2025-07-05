@@ -7,7 +7,6 @@ import com.group4.gamehub.mapper.UserMapper;
 import com.group4.gamehub.model.UserEntity;
 import com.group4.gamehub.repository.UserRepository;
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 /**
@@ -68,7 +67,9 @@ public class UserServiceImpl implements UserService {
   @Override
   public PublicUser findByUsernamePublic(String username) {
     UserEntity userEntity =
-        userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(() -> new NotFoundException("User not found"));
     return userMapper.toPublicUserResponse(userEntity);
   }
 }

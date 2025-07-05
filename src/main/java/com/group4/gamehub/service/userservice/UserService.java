@@ -5,7 +5,6 @@ import com.group4.gamehub.dto.responses.user.User;
 import com.group4.gamehub.exception.NotFoundException;
 import com.group4.gamehub.model.UserEntity;
 import java.util.Optional;
-import java.util.UUID;
 
 /** Interface for user-related operations such as retrieval by email, username, or ID. */
 public interface UserService {
