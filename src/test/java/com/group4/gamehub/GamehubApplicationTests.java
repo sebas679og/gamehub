@@ -148,7 +148,7 @@ class GamehubApplicationTests {
   }
 
   @Test
-  void getUserById_ReturnsPublicUserResponse() throws Exception {
+  void getUserByUsername_ReturnsPublicUserResponse() throws Exception {
     String username = "testuser";
     if (userRepository.findByUsername(username).isEmpty()) {
       Register register =
@@ -166,12 +166,9 @@ class GamehubApplicationTests {
           .andExpect(status().isCreated());
     }
 
-    // Obtener el ID desde la base de datos
-    UUID userId = userRepository.findByUsername(username).orElseThrow().getId();
-
     // Probar el endpoint GET /api/users/{id}
     mockMvc
-        .perform(get("/api/users/" + userId).header("Authorization", "Bearer " + jwtToken))
+        .perform(get("/api/users/" + username).header("Authorization", "Bearer " + jwtToken))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.username").value(username))
         .andExpect(jsonPath("$.role").value(Role.PLAYER.name()))

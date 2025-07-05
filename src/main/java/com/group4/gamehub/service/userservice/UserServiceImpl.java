@@ -61,14 +61,14 @@ public class UserServiceImpl implements UserService {
   /**
    * Retrieves public user details by user ID.
    *
-   * @param id the user's unique identifier
+   * @param username the user's unique identifier
    * @return a {@link PublicUser} containing non-sensitive user information
    * @throws NotFoundException if no user is found with the given ID
    */
   @Override
-  public PublicUser findById(UUID id) {
+  public PublicUser findByUsernamePublic(String username) {
     UserEntity userEntity =
-        userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
     return userMapper.toPublicUserResponse(userEntity);
   }
 }

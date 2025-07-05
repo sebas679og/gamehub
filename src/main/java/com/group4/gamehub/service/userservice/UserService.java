@@ -30,9 +30,9 @@ public interface UserService {
   /**
    * Finds a user by their ID and returns public (non-sensitive) user information.
    *
-   * @param id the UUID of the user to retrieve
+   * @param username the UUID of the user to retrieve
    * @return a {@link PublicUser} with limited user data
    * @throws NotFoundException if no user is found with the given ID
    */
-  PublicUser findById(UUID id);
+  PublicUser findByUsernamePublic(String username);
 }

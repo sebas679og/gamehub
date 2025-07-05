@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.UUID;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -85,15 +84,15 @@ public class UserController {
   }
 
   /**
-   * Retrieves the public profile of a user by their UUID.
+   * Retrieves the public profile of a user by their username.
    *
-   * @param id the UUID of the user to retrieve
+   * @param username the String of the user to retrieve
    * @return a {@link ResponseEntity} with public user info
    */
-  @GetMapping("/{id}")
+  @GetMapping("/{username}")
   @Operation(
-      summary = "Get public user info by ID",
-      description = "Returns limited public profile information of a user by UUID.",
+      summary = "Get public user info by username",
+      description = "Returns limited public profile information of a user by username.",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -117,7 +116,7 @@ public class UserController {
                     mediaType = APPLICATION_JSON,
                     schema = @Schema(implementation = ErrorResponse.class)))
       })
-  public ResponseEntity<PublicUser> getUserById(@PathVariable UUID id) {
-    return ResponseEntity.ok(userService.findById(id));
+  public ResponseEntity<PublicUser> getUserByUsername(@PathVariable String username) {
+    return ResponseEntity.ok(userService.findByUsernamePublic(username));
   }
 }

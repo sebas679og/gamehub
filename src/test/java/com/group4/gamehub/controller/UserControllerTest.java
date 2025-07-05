@@ -52,15 +52,15 @@ class UserControllerTest {
 
   @Test
   void getUserById_ReturnsPublicUserResponse() {
-    UUID userId = UUID.randomUUID();
+    String testUsername = "testuser";
     PublicUser expectedResponse =
-        PublicUser.builder().username("testuser").rank("test-rank").points(100L).build();
-    when(userService.findById(userId)).thenReturn(expectedResponse);
+        PublicUser.builder().username(testUsername).rank("test-rank").points(100L).build();
+    when(userService.findByUsernamePublic(testUsername)).thenReturn(expectedResponse);
 
-    ResponseEntity<PublicUser> response = userController.getUserById(userId);
+    ResponseEntity<PublicUser> response = userController.getUserByUsername(testUsername);
 
     assertEquals(200, response.getStatusCode().value());
     assertEquals(expectedResponse, response.getBody());
-    verify(userService, times(1)).findById(userId);
+    verify(userService, times(1)).findByUsernamePublic(testUsername);
   }
 }

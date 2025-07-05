@@ -77,11 +77,11 @@ class UserServiceImplTest {
   }
 
   @Test
-  void findById_ExistingId_ReturnsPublicUserResponse() {
-    UUID id = UUID.randomUUID();
+  void findByUsername_ExistingId_ReturnsPublicUserResponse() {
+    String publicUser = "publicUser";
     UserEntity user =
         UserEntity.builder()
-            .username("publicUser")
+            .username(publicUser)
             .role(Role.PLAYER)
             .rank("Silver")
             .points(100L)
@@ -89,33 +89,33 @@ class UserServiceImplTest {
 
     PublicUser response =
         PublicUser.builder()
-            .username("publicUser")
+            .username(publicUser)
             .role(Role.PLAYER)
             .rank("Silver")
             .points(100L)
             .build();
 
-    when(userRepository.findById(id)).thenReturn(Optional.of(user));
+    when(userRepository.findByUsername(publicUser)).thenReturn(Optional.of(user));
     when(userMapper.toPublicUserResponse(user)).thenReturn(response);
 
-    PublicUser result = userService.findById(id);
+    PublicUser result = userService.findByUsernamePublic(publicUser);
 
     assertEquals("publicUser", result.getUsername());
     assertEquals(Role.PLAYER, result.getRole());
     assertEquals("Silver", result.getRank());
     assertEquals(100L, result.getPoints());
-    verify(userRepository).findById(id);
+    verify(userRepository).findByUsername(publicUser);
     verify(userMapper).toPublicUserResponse(user);
   }
 
   @Test
-  void findById_UserNotFound_ThrowsException() {
-    UUID id = UUID.randomUUID();
+  void findByUsernamePublic_UserNotFound_ThrowsException() {
+    String publicUser = "publicUser";
 
-    when(userRepository.findById(id)).thenReturn(Optional.empty());
+    when(userRepository.findByUsername(publicUser)).thenReturn(Optional.empty());
 
-    assertThrows(NotFoundException.class, () -> userService.findById(id));
-    verify(userRepository).findById(id);
+    assertThrows(NotFoundException.class, () -> userService.findByUsernamePublic(publicUser));
+    verify(userRepository).findByUsername(publicUser);
     verify(userMapper, never()).toPublicUserResponse(any());
   }
 }
