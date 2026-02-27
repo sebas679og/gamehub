@@ -1,0 +1,32 @@
+services:
+  postgres-gamehub:
+    image: postgres:17.8
+    container_name: postgres-gamehub
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${GAMEHUB_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${GAMEHUB_DATASOURCE_PASSWORD}
+      POSTGRES_DB: ${GAMEHUB_DATASOURCE_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./gamehub-data:/var/lib/postgresql/data
+    restart: always
+
+  gamehub-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gamehub-service
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-gamehub
+    environment:
+      GAMEHUB_DATASOURCE_URL: r2dbc:postgresql://postgres-gamehub:5432/${GAMEHUB_DATASOURCE_DATABASE}
+      GAMEHUB_DATASOURCE_USERNAME: ${GAMEHUB_DATASOURCE_USERNAME}
+      GAMEHUB_DATASOURCE_PASSWORD: ${GAMEHUB_DATASOURCE_PASSWORD}
+    restart: on-failure
