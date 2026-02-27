@@ -140,6 +140,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>gamehub</finalName>
 	</build>
 
 </project>
