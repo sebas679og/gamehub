@@ -1,40 +1,33 @@
-FROM eclipse-temurin:25
+FROM python:3.14-slim AS builder
 
-ARG BUILD_DATE=unknown
-ARG BUILD_VERSION=unknown
-ARG IMAGE_DESCRIPTION=unknown
-ARG IMAGE_NAME="GameHub"
-ARG UID=1010
-ARG GID=1010
-
-ENV MAVEN_HOME=/usr/share/maven
-ENV MAVEN_CONFIG=/home/sebas/.m2
-
-LABEL sebas.gamehub.build-date=$BUILD_DATE
-LABEL sebas.gamehub.name=$IMAGE_NAME
-LABEL sebas.gamehub.description=$IMAGE_DESCRIPTION
-LABEL sebas.gamehub.base.image="eclipse-temurin:25"
-LABEL sebas.gamehub.version=$BUILD_VERSION
-LABEL maintainer="Sebastian O."
-
-RUN groupadd -g "${GID}" sebas \
-    && useradd --create-home --no-log-init -u "${UID}" -g sebas sebas
-
-COPY --from=maven:3.9.12-eclipse-temurin-25 ${MAVEN_HOME} ${MAVEN_HOME}
-COPY --from=maven:3.9.12-eclipse-temurin-25 /usr/local/bin/mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
-COPY --from=maven:3.9.12-eclipse-temurin-25 /usr/share/maven/ref/settings-docker.xml /usr/share/maven/ref/settings-docker.xml
-
-RUN ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn
-
-USER sebas
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 WORKDIR /opt/app
 
-COPY --chown=sebas:sebas . .
+COPY pyproject.toml uv.lock* ./
+RUN uv sync --frozen --no-install-project --no-dev
 
-RUN mvn dependency:go-offline \
-    && mvn clean package -DskipTests
+COPY . .
+RUN uv sync --frozen --no-dev
 
-ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
 
-CMD ["java","-jar","target/gamehub.jar"]
+FROM python:3.14-slim
+
+RUN groupadd -r app && useradd -r -g app app
+
+WORKDIR /opt/app
+
+COPY --from=builder --chown=app:app /opt/app/.venv /opt/app/.venv
+COPY --from=builder --chown=app:app /opt/app /opt/app
+
+RUN mkdir -p /opt/app/logs && chown -R app:app /opt/app/logs
+
+ENV PATH="/opt/app/.venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+USER app
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

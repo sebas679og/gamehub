@@ -1,37 +1,43 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.env
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Python
+__pycache__/
+*.py[oc]
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+dist/
+wheels/
 
-### VS Code ###
+# Compiled extensions
+*.so
+
+# Distribution / packaging
+*.egg-info/
+.eggs/
+
+# Testing / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Logs
+*.log
+
+# IDEs / Editors
 .vscode/
+.idea/
 
-### Persistent Data ###
-gamehub-data/
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database Directory
+data-source/
