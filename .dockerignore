@@ -15,4 +15,8 @@ build/
 .ruff_cache/
 tests/
 docs/
+logs/
+data-source/
+.idea/
+.vscode/
 *.md
