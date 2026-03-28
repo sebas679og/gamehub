@@ -4,11 +4,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.core.logger import setup_logging
-from app.infrastructure.db.database import engine, Base
+from app.infrastructure.db.database import Base, engine
 
 setup_logging()
 
 logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -19,5 +20,6 @@ async def lifespan(app: FastAPI):
     yield
     logger.info("Closing connection to the database...")
     await engine.dispose()
+
 
 app = FastAPI(lifespan=lifespan)
