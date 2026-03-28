@@ -1,4 +1,4 @@
-name: gameHub-system
+name: gamehub-system
 
 services:
   postgres-gamehub:
@@ -24,7 +24,11 @@ services:
     depends_on:
       - postgres-gamehub
     environment:
-      -
+      GAMEHUB_DATASOURCE_USERNAME: ${GAMEHUB_DATASOURCE_USERNAME}
+      GAMEHUB_DATASOURCE_PASSWORD: ${GAMEHUB_DATASOURCE_PASSWORD}
+      GAMEHUB_DATASOURCE_DATABASE: ${GAMEHUB_DATASOURCE_DATABASE}
+      GAMEHUB_DATASOURCE_HOST: "postgres-gamehub"
+      GAMEHUB_DATASOURCE_PORT: "5432"
     restart: on-failure
     networks:
       - gameHub-network
