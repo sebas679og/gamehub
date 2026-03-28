@@ -6,4 +6,3 @@ from app.core.config import settings
 engine = create_async_engine(settings.gamehub_datasource_url)
 
 Base = declarative_base()
-
