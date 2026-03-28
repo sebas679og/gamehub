@@ -19,7 +19,9 @@ def setup_logging():
     ch.setFormatter(logging.Formatter(fmt, datefmt))
     logger.addHandler(ch)
 
-    fh = RotatingFileHandler(log_dir / "gamehub.log", maxBytes=5 * 1024 * 1024, backupCount=5)
+    fh = RotatingFileHandler(
+        log_dir / "gamehub.log", maxBytes=5 * 1024 * 1024, backupCount=5
+    )
     fh.setLevel(logging.INFO)
     fh.setFormatter(logging.Formatter(fmt, datefmt))
     logger.addHandler(fh)
