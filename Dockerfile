@@ -5,7 +5,6 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 WORKDIR /opt/app
 
 COPY pyproject.toml uv.lock* ./
-
 RUN uv sync --frozen --no-install-project --no-dev
 
 COPY . .
@@ -18,10 +17,12 @@ RUN groupadd -r app && useradd -r -g app app
 
 WORKDIR /opt/app
 
-COPY --from=builder --chown=app:app /app/.venv /app/.venv
-COPY --from=builder --chown=app:app /app /app
+COPY --from=builder --chown=app:app /opt/app/.venv /opt/app/.venv
+COPY --from=builder --chown=app:app /opt/app /opt/app
 
-ENV PATH="/app/.venv/bin:$PATH" \
+RUN mkdir -p /opt/app/logs && chown -R app:app /opt/app/logs
+
+ENV PATH="/opt/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
