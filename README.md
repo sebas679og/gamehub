@@ -123,8 +123,12 @@ uv run uvicorn app.main:app --port 8000
 uv run pytest
 
 # Lint and format
-uv run ruff check .
-uv run ruff format .
+ruff check app/ --fix
+ruff check app/
+ruff format app/
+
+# type check
+ty check app/
 ```
 
 ---
@@ -139,11 +143,6 @@ Once the server is running, interactive documentation is available at:
 | ReDoc | `http://localhost:8000/redoc` |
 | OpenAPI JSON | `http://localhost:8000/openapi.json` |
 
-All protected endpoints require a JWT token in the `Authorization` header:
-
-```
-Authorization: Bearer <your_token>
-```
 ---
 
 ## 📁 Project Structure
@@ -177,12 +176,16 @@ gamehub/
 │           └── database.py            # DB connection and session
 │
 ├── tests/
-│   ├── unit/
-│   └── integration/
+│   ├── config/                        # Test configuration reutilized across test suites
+│   ├── unit/                          # Unit tests for domain and application layers
+│   ├── integration/                   # Integration tests for API endpoints and database interactions
+│   ├── conftest.py                    # Pytest configuration and fixtures
+│   └── test_context.py                # Test context manager for setup/teardown
+│
 ├── alembic/                           # Database migrations
 ├── .env.example
 ├── .gitignore
-├── pyproject.toml                     # Project config (uv / ruff / pytest)
+├── pyproject.toml                     # Project config (uv / ruff / ty)
 ├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
