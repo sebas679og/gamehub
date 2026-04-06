@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.core.logger import setup_logging
-from app.infrastructure.db.database import Base, engine
+from app.adapters.persistence.database import Base, engine
 
 setup_logging()
 
