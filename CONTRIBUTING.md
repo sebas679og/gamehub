@@ -70,14 +70,17 @@ git remote add upstream https://github.com/sebas679og/gamehub.git
 # 4. Create the virtual environment and install dependencies
 uv sync
 
-# 5. Copy environment variables
+# 5. Set up the development environment with dev dependencies
+uv sync --group dev
+
+# 6. Copy environment variables
 cp .env.example .env
 # Edit .env with your local configuration
 
-# 6. Run database migrations
+# 7. Run database migrations
 uv run alembic upgrade head
 
-# 7. Verify everything works
+# 8. Verify everything works
 uv run pytest test/
 uv run uvicorn app.main:app --reload
 ```

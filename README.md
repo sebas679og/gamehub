@@ -119,13 +119,22 @@ uv run uvicorn app.main:app --reload
 # Production
 uv run uvicorn app.main:app --port 8000
 
+# Set up the development environment with dev dependencies
+uv sync --group dev
+
 # Run tests
-uv run pytest
+uv run pytest tests/
+
+# run tests with debugging
+uv run pytest -vvv --capture=no tests/
+
+# Run tests with code coverage and generate HTML report
+uv run pytest -vvv --cov=app --cov-report term-missing --cov-report html tests/
 
 # Lint and format
 ruff check app/ --fix
-ruff check app/
 ruff format app/
+ruff check app/
 
 # type check
 ty check app/
