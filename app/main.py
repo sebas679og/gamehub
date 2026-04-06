@@ -3,8 +3,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.core.logger import setup_logging
 from app.adapters.persistence.database import Base, engine
+from app.core.logger import setup_logging
 
 setup_logging()
 
