@@ -56,6 +56,12 @@ jobs:
         run: uv sync --group test
 
       - name: Run Pytest
+        env:
+          GAMEHUB_DATASOURCE_USERNAME: dummy
+          GAMEHUB_DATASOURCE_PASSWORD: dummy
+          GAMEHUB_DATASOURCE_DATABASE: dummy
+          GAMEHUB_DATASOURCE_HOST: localhost
+          GAMEHUB_DATASOURCE_PORT: 5432
         run: uv run pytest --cov-report=xml
 
       - name: Upload coverage reports
