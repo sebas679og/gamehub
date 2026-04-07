@@ -11,6 +11,7 @@ Thank you for your interest in contributing to GameHub! This document explains h
 - [Development Environment Setup](#development-environment-setup)
 - [Git Workflow](#git-workflow)
 - [Commit Conventions](#commit-conventions)
+- [Versioning](#versioning)
 - [Code Style](#code-style)
 - [Pull Requests](#pull-requests)
 - [Reporting Bugs](#reporting-bugs)

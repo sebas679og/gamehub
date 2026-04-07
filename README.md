@@ -105,7 +105,7 @@ Copy the template file and fill in the values:
 ```bash
 cp .env.template .env
 ```
-
+> [!NOTE]
 > Never commit your `.env` file. It is already included in `.gitignore`.
 
 ---
