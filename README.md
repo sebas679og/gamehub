@@ -13,6 +13,7 @@ GameHub is a REST API built with **FastAPI** that allows players and organizers 
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [Running the Project](#running-the-project)
+- [Docker Registry](#docker-registry)
 - [API Documentation](#api-documentation)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
@@ -105,7 +106,7 @@ Copy the template file and fill in the values:
 ```bash
 cp .env.template .env
 ```
-
+> [!NOTE]
 > Never commit your `.env` file. It is already included in `.gitignore`.
 
 ---
@@ -123,13 +124,10 @@ uv run uvicorn app.main:app --port 8000
 uv sync --group dev
 
 # Run tests
-uv run pytest tests/
+uv run pytest
 
 # run tests with debugging
-uv run pytest -vvv --capture=no tests/
-
-# Run tests with code coverage and generate HTML report
-uv run pytest -vvv --cov=app --cov-report term-missing --cov-report html tests/
+uv run pytest --capture=no
 
 # Lint and format
 ruff check app/ --fix
@@ -138,6 +136,39 @@ ruff check app/
 
 # type check
 ty check app/
+```
+
+---
+
+## Docker Registry
+
+A Docker image is available on Docker Hub for quick deployment and testing:
+
+**GameHub Docker Image:** [sebas679og/gamehub](https://hub.docker.com/r/sebas679og/gamehub)
+```bash
+docker pull sebas679og/gamehub:latest
+```
+
+### Required Environment Variables
+
+| Variable | Description |
+|---|---|
+| `GAMEHUB_DATASOURCE_USERNAME` | Database user |
+| `GAMEHUB_DATASOURCE_PASSWORD` | Database password |
+| `GAMEHUB_DATASOURCE_DATABASE` | Database name |
+| `GAMEHUB_DATASOURCE_HOST` | Database host (e.g. `postgres-gamehub`) |
+| `GAMEHUB_DATASOURCE_PORT` | Database port (default: `5432`) |
+
+### Quick Start
+```bash
+docker run -d \
+  -e GAMEHUB_DATASOURCE_USERNAME=your_user \
+  -e GAMEHUB_DATASOURCE_PASSWORD=your_password \
+  -e GAMEHUB_DATASOURCE_DATABASE=gamehub \
+  -e GAMEHUB_DATASOURCE_HOST=postgres-gamehub \
+  -e GAMEHUB_DATASOURCE_PORT=5432 \
+  -p 8000:8000 \
+  sebas679og/gamehub:latest
 ```
 
 ---
