@@ -1,5 +1,6 @@
 import logging
 from contextlib import asynccontextmanager
+from importlib.metadata import PackageNotFoundError, version
 
 from fastapi import FastAPI
 
@@ -10,10 +11,14 @@ setup_logging()
 
 logger = logging.getLogger(__name__)
 
+try:
+    __version__ = version("gamehub")
+except PackageNotFoundError:
+    __version__ = "unknown"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("Starting GameHub API...")
+    logger.info("Starting GameHub API v%s", __version__)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Connection established to the database.")
