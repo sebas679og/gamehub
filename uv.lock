@@ -250,6 +250,17 @@ dev = [
     { name = "testcontainers" },
     { name = "ty" },
 ]
+lint = [
+    { name = "ruff" },
+    { name = "ty" },
+]
+test = [
+    { name = "asyncpg" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "pytest-cov" },
+    { name = "testcontainers" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -272,6 +283,17 @@ dev = [
     { name = "ruff", specifier = ">=0.15.8" },
     { name = "testcontainers", specifier = ">=4.14.2" },
     { name = "ty", specifier = ">=0.0.26" },
+]
+lint = [
+    { name = "ruff", specifier = ">=0.15.8" },
+    { name = "ty", specifier = ">=0.0.26" },
+]
+test = [
+    { name = "asyncpg", specifier = ">=0.31.0" },
+    { name = "pytest", specifier = ">=9.0.2" },
+    { name = "pytest-asyncio", specifier = ">=1.3.0" },
+    { name = "pytest-cov", specifier = ">=7.1.0" },
+    { name = "testcontainers", specifier = ">=4.14.2" },
 ]
 
 [[package]]
