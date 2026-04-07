@@ -176,7 +176,7 @@ Then commit the change:
 git add pyproject.toml
 git commit -m "chore: bump version to 0.2.0"
 ```
-> .[!IMPORTANT].
+> [!IMPORTANT]
 > This ensures that Docker images published to the registry always reflect the correct version of the service.
 
 ---
