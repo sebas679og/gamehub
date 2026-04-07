@@ -156,6 +156,31 @@ chore: update dependencies
 
 ---
 
+## Versioning
+The project follows [Semantic Versioning](https://semver.org/). Before opening a PR, update the version in `pyproject.toml` according to the type of change:
+
+| Change type | Bump | Example |
+|---|---|---|
+| Bug fix | Patch | `0.1.0 → 0.1.1` |
+| New feature | Minor | `0.1.0 → 0.2.0` |
+| Breaking change | Major | `0.1.0 → 1.0.0` |
+
+Update the version manually in `pyproject.toml`:
+```toml
+[project]
+version = "0.2.0"
+```
+
+Then commit the change:
+```bash
+git add pyproject.toml
+git commit -m "chore: bump version to 0.2.0"
+```
+> .[!IMPORTANT].
+> This ensures that Docker images published to the registry always reflect the correct version of the service.
+
+---
+
 ## 🎨 Code Style
 
 GameHub uses **Ruff** for linting and formatting. The project follows these conventions:
