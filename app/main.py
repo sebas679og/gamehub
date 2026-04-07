@@ -16,6 +16,7 @@ try:
 except PackageNotFoundError:
     __version__ = "unknown"
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting GameHub API v%s", __version__)

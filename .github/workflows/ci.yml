@@ -24,13 +24,13 @@ jobs:
         run: uv sync --group lint
 
       - name: Run Ruff (linter)
-        run: uv run ruff check app/
+        run: ruff check app/
 
       - name: Run Ruff (formatter check)
-        run: uv run ruff format --check app/
+        run: ruff format --check app/
 
       - name: Run Ty (type checker)
-        run: uv run ty check app/
+        run: ty check app/
 
   test:
     name: Pytest
